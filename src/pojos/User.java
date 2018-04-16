@@ -70,7 +70,7 @@ public class User {
 		this.id = id;
 	}
 	
-	public void setUsername(String username) throws exceptions.InvalidUserException {
+	public void setUsername(String username) throws InvalidUserException {
 		try {
 			if(UserManager.verifyUsername(username)){
 				this.username = username;

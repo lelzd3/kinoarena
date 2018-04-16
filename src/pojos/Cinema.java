@@ -13,39 +13,64 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import exceptions.InvalidDataException;
+
 
 public class Cinema {
 	
-//	// Singleton class
-//	private static final int MAX_MOVIE_FOR_THE_WEEK = 4;
-//	private static final int ALL_HALLS = 4;
-//	private static final String PATH_FOR_MOVIES = "Movies.txt";
-//	private static Cinema instance;
-//	private String name;
-//	private String address;
-//	private static TreeMap<String, User> users = new TreeMap<>(); // Collection <username, user>
-//	private Set<Movie> allMovies = new HashSet<>();
-//	private LinkedHashSet<Hall> halls = new LinkedHashSet<>();
-//	private TreeSet<Broadcast> broadcasts = new TreeSet<>();	
-//	
-//	private Cinema() {
-//		this.name = "Kino Arena";
-//		this.address = "Ring Mall Sofia";
-//		
-//		for (int i = 1; i <= ALL_HALLS; i++) {
-//			this.halls.add(new Hall(i, this));
-//		}
-//		
-//	}
-//
-//	public static Cinema getInstance() {
-//		if (instance == null) {
-//			instance = new Cinema();
-//			return instance;
-//		}
-//			return instance;
-//		}
-//		
+
+	private int id;
+	private String name;
+	private String address;
+	
+	Cinema(String name,String address) throws InvalidDataException{
+		setName(name);
+		setAddress(address);
+	}
+	
+	
+	
+	public Cinema(int id, String name, String address) throws InvalidDataException {
+		this(name,address);
+		setId(id);
+	}
+
+
+
+	//getters
+	public int getId() {
+		return id;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	
+	//setters
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setName(String name) throws InvalidDataException {
+		if(!name.isEmpty()) {
+			this.name = name;
+		}
+		else {
+			throw new InvalidDataException("Invalid name");
+		}
+	}
+	public void setAddress(String address) throws InvalidDataException {
+		if(!address.isEmpty()) {
+			this.address = address;
+		}
+		else {
+			throw new InvalidDataException("Invalid address");
+		}
+	}
+
+	
+	
 //	public void setTheBroadcasts() {
 //		int i = 0;
 //		ArrayList<Hall> halls = new ArrayList<>(this.halls);
