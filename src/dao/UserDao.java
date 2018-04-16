@@ -18,7 +18,7 @@ public class UserDao implements IUserDao{
 	private static UserDao instance;
 	private Connection connection;
 	
-	public static UserDao getInstance() {
+	public synchronized static UserDao getInstance() {
 		if(instance == null) {
 			instance = new UserDao();
 		}

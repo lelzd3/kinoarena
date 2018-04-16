@@ -17,7 +17,7 @@ public class UserManager {
 	private static Connection connection;
 	private static UserManager instance;
 
-	public static synchronized UserManager getInstance() {
+	public synchronized static  UserManager getInstance() {
 		if (instance == null) {
 			instance = new UserManager();
 		}

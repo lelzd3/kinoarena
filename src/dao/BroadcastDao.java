@@ -12,7 +12,7 @@ public class BroadcastDao implements IBroadcastDao{
 	private static BroadcastDao instance;
 	private Connection connection;
 	
-	public static BroadcastDao getInstance() {
+	public synchronized static BroadcastDao getInstance() {
 		if(instance == null) {
 			instance = new BroadcastDao();
 		}
@@ -47,6 +47,12 @@ public class BroadcastDao implements IBroadcastDao{
 
 	@Override
 	public void changeBroadcastProjectionTime(Broadcast b) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addBroadcast(Broadcast b) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

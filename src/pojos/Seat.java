@@ -1,6 +1,6 @@
 package pojos;
 
-import com.sun.media.sound.InvalidDataException;
+import exceptions.InvalidDataException;
 
 public class Seat {
 
@@ -8,15 +8,9 @@ public class Seat {
 	private int column;
 	
 
-	public Seat(int row, int column) {
-
-		try {
-			setRow(row);
-			setColumn(column);
-		} catch (InvalidDataException e) {
-			e.getMessage();
-			e.printStackTrace();
-		}
+	public Seat(int row, int column) throws InvalidDataException {
+		setRow(row);
+		setColumn(column);
 	}
 
 	public int getRow() {

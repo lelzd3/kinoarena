@@ -2,45 +2,46 @@ package pojos;
 
 import java.time.LocalTime;
 
-import com.sun.media.sound.InvalidDataException;
+import exceptions.InvalidDataException;
+
 
 
 public class Broadcast {
 
-
-    private int movieId;
+	private int id;
+	private int cinema_id;
+    private int movie_id;
+    private int hall_id;
     private LocalTime projectionTime;
-    private int hallId;
-    private int cinemaId;
 	private int freePlaces;
+	
 	private static final int TOTAL_PLACES_IN_HALL=100;
-	
-	
-	public Broadcast(int movieId, LocalTime projectionTime, int hallId, int cinemaId) {
-		try {
-			setProjectionTime(projectionTime);
-		} catch (InvalidDataException e) {
-			e.printStackTrace();
-		}
-		this.movieId = movieId;
-		this.hallId = hallId;
-		this.cinemaId = cinemaId;
+
+	public Broadcast(int cinema_id, int movie_id, int hall_id, LocalTime projectionTime) throws InvalidDataException {
+		setCinemaId(cinema_id);
+		setMovieId(movie_id);
+		setHallId(hall_id);
+		setProjectionTime(projectionTime);
 		this.freePlaces = TOTAL_PLACES_IN_HALL;
 	}
-
-
 	
+	public Broadcast(int id, int cinema_id, int movie_id, int hall_id, LocalTime projectionTime) throws InvalidDataException {
+		this(cinema_id, movie_id, hall_id, projectionTime);
+		setId(id);
+	}
+
 	//all setters:
-	public void setMovieId(int movieId) throws InvalidDataException  {
+	public void setId(int id) {
+		this.id = id;
+	}
 	
-		this.movieId = movieId;
-		
+	public void setMovieId(int movie_id) throws InvalidDataException  {
+		this.movie_id = movie_id;
 	}
 	
 
-	public void setCinemaId(int cinemaId) throws InvalidDataException {
-
-		this.cinemaId = cinemaId;
+	public void setCinemaId(int cinema_id) throws InvalidDataException {
+		this.cinema_id = cinema_id;
 	}
 
 
@@ -62,21 +63,21 @@ public class Broadcast {
 
 
 
-	public void setHallId(int hallId) throws InvalidDataException {
+	public void setHallId(int hall_id) throws InvalidDataException {
 		
-		this.hallId = hallId;
+		this.hall_id = hall_id;
 	}
 
 
 	//all getters:
 	public int getCinemaId() {
-		return cinemaId;
+		return cinema_id;
 	}
 
 
 
 	public int getMovieId() {
-		return movieId;
+		return movie_id;
 	}
 
 
@@ -90,7 +91,7 @@ public class Broadcast {
 	}
 
 	public int getHallId() {
-		return hallId;
+		return hall_id;
 	}
 	
 	
