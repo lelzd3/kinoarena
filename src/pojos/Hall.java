@@ -1,4 +1,4 @@
-package kinoarena;
+package pojos;
 
 import java.time.LocalTime;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package kinoarena;
+package pojos;
 
 
 

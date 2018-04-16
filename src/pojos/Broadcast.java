@@ -1,4 +1,4 @@
-package kinoarena;
+package pojos;
 
 import java.time.LocalTime;
 
@@ -11,7 +11,7 @@ public class Broadcast implements Comparable<Broadcast>{
 	private int places;
 
 	public Broadcast(Movie movie, LocalTime projectionTime, Hall projectionHall) {
-		this.movie = (Movie)movie;
+		this.movie = movie;
 		this.projectionTime = projectionTime;
 		this.projectionHall = projectionHall;
 		this.places = this.projectionHall.getSits();

@@ -1,4 +1,4 @@
-package kinoarena;
+package pojos;
 
 import java.io.Serializable;
 import java.time.LocalTime;

@@ -1,4 +1,4 @@
-package kinoarena;
+package pojos;
 
 import java.io.File;
 import java.io.FileOutputStream;
