@@ -15,7 +15,7 @@ public class Hall {
 		setCinema_id(cinema_id);
 	}
 	
-	Hall(int id,int seats,int cinema_id) throws InvalidDataException{
+	public Hall(int id,int seats,int cinema_id) throws InvalidDataException{
 		this(seats,cinema_id);
 		setId(id);
 	}

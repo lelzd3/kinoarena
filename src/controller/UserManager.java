@@ -34,7 +34,7 @@ public class UserManager {
 			UserDao.getInstance().loginCheck(username, password);
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Sori, ama ima bug: " + e.getMessage());
+			System.out.println("SQLExcp in login " + e.getMessage());
 			throw e;
 		}
 	}
