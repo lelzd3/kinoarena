@@ -101,16 +101,6 @@ public class UserManager {
 	        
 	    return true;
 	}
-	
-//	public static boolean checkChanges(String change) {
-//		
-//		List<String> changeTypes = new ArrayList<String>(Arrays.asList("password", "name", "mail", "phone"));
-//		for(String s : changeTypes) {
-//			if(change.equals(s)) {
-//				return true;
-//			}
-//		}
-//		return false; 
-//	}
+
 
 }

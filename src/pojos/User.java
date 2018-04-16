@@ -1,18 +1,7 @@
 package pojos;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
-
 import controller.UserManager;
-import dao.AdminDao;
-import dao.UserDao;
 import exceptions.InvalidDataException;
-import exceptions.InvalidUserException;
 
 public class User {
 	
@@ -27,7 +16,7 @@ public class User {
 	private Cinema cinema;
 
 	
-	public User(String username,String password,String firstname,String lastname,String email, String phoneNumber) throws InvalidUserException {
+	public User(String username,String password,String firstname,String lastname,String email, String phoneNumber) throws InvalidDataException {
 		setUsername(username);
 		setPassword(password);
 		setFirstName(firstname);
@@ -36,7 +25,7 @@ public class User {
 		setPhone(phoneNumber);
 	}
 	
-	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber) throws InvalidUserException {
+	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber) throws InvalidDataException {
 		this(username, password, firstname, lastname, email, phoneNumber);
 		setId(id);
 	}
@@ -70,80 +59,43 @@ public class User {
 		this.id = id;
 	}
 	
-	public void setUsername(String username) throws InvalidUserException {
-		try {
-			if(UserManager.verifyUsername(username)){
-				this.username = username;
-			}
-		} catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
+	public void setUsername(String username) throws InvalidDataException {
+		if(UserManager.verifyUsername(username)){
+			this.username = username;
+		}
+
+	}
+
+	public void setPassword(String password) throws InvalidDataException {
+		if(UserManager.verifyPassword(password)){
+			this.password = password;
+		}
+	}
+	
+	public void setFirstName(String name) throws InvalidDataException {
+		if(UserManager.validation(name)) {
+			this.firstname = name;
 		}
 	}
 
-	public void setPassword(String password) throws InvalidUserException {
-		try {
-			if(UserManager.verifyPassword(password)){
-				this.password = password;
-			}
-		} catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
+	public void setLastName(String name) throws InvalidDataException {
+		if(UserManager.validation(name)) {
+			this.lastname = name;
 		}
 	}
 	
-	public void setFirstName(String name) throws InvalidUserException {
-		try {
-			if(UserManager.validation(name)) {
-				this.firstname = name;
-			}
-		}
-		catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
+	public void setEmail(String email) throws InvalidDataException{
+		if(UserManager.verifyEmail(email)){
+			this.email = email;
 		}
 	}
 
+	public void setPhone(String phone) throws InvalidDataException{
+		if(UserManager.verifyPhoneNumber(phone)){
+			this.phone = phone;
+		}
 	
-	public void setLastName(String name) throws InvalidUserException {
-		try {
-			if(UserManager.validation(name)) {
-				this.lastname = name;
-			}
-		}
-		catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
-		}
 	}
-	
-	public void setEmail(String email) throws InvalidUserException{
-		try {
-			if(UserManager.verifyEmail(email)){
-				this.email = email;
-			}
-		}
-		catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
-		}
-		
-	}
-
-	public void setPhone(String phone) throws InvalidUserException{
-		try {
-			if(UserManager.verifyPhoneNumber(phone)){
-				this.phone = phone;
-			}
-		} 
-		catch (InvalidDataException e) {
-			throw new InvalidUserException(e.getMessage(), e);
-		}
-	}
-	
-	
-	
-// in UserDao
-//addMovieToFavoriteList
-//rateMovie
-//makeReservation
-//removeReservation
-
 
 	
 }

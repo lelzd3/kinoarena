@@ -1,6 +1,6 @@
 package dao;
 
-public class AdminDao {
+public class AdminDao implements IAdminDao {
 	
 	
 
