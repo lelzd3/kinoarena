@@ -20,4 +20,5 @@ public class SeatDao implements ISeatDao{
 		connection = DBManager.getInstance().getConnection();
 	}
 	
+	//empty for now, no methods needed
 }

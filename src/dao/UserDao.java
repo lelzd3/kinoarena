@@ -129,7 +129,7 @@ public class UserDao implements IUserDao{
 			}
 			ps.close();
 		}
-		
+		//needs Catch I think, compiler doesnt cream bacause it has throw Excp I think
 	}
 	
 	
