@@ -1,12 +1,15 @@
 package controller;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dao.UserDao;
 import database.DBManager;
 import exceptions.InvalidDataException;
+import exceptions.WrongCredentialsException;
 
 public class UserManager {
 	
@@ -25,6 +28,17 @@ public class UserManager {
 		connection = DBManager.getInstance().getConnection();
 	}
 		
+	
+	public boolean login(String username, String password) throws SQLException, WrongCredentialsException {
+		try {
+			UserDao.getInstance().loginCheck(username, password);
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Sori, ama ima bug: " + e.getMessage());
+			throw e;
+		}
+	}
+	
 	
 
 	public static boolean inputValidation(String username, String password) throws InvalidDataException {

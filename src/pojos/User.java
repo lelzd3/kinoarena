@@ -14,6 +14,8 @@ public class User {
 	protected String phone;
 	public boolean activeAccount;
 	private Cinema cinema;
+	protected boolean isAdmin;
+	private boolean isAlreadyRated;
 
 	
 	public User(String username,String password,String firstname,String lastname,String email, String phoneNumber) throws InvalidDataException {
@@ -23,6 +25,7 @@ public class User {
 		setLastName(lastname);
 		setEmail(email);
 		setPhone(phoneNumber);
+		isAdmin=false;
 	}
 	
 	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber) throws InvalidDataException {
@@ -32,6 +35,23 @@ public class User {
 	
 	
 	
+	
+	public int getId() {
+		return id;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
 	// getters:
 	public String getPassword() {
 		return password;
@@ -96,6 +116,15 @@ public class User {
 		}
 	
 	}
+
+	public boolean isAlreadyRated() {
+		return isAlreadyRated;
+	}
+
+	public void setAlreadyRated(boolean isAlreadyRated) {
+		this.isAlreadyRated = isAlreadyRated;
+	}
+	
 
 	
 }
