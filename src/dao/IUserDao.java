@@ -22,7 +22,7 @@ public interface IUserDao {
 	
 	public void rateMovie(User u , Movie m, int rating) throws Exception;
 	
-	public void existingUserNameCheck(String username) throws InvalidDataException, SQLException;
+	public void existingUserNameCheck(String username) throws InvalidDataException, SQLException, exceptions.InvalidDataException;
 	
 	//TODO add phone number method
 

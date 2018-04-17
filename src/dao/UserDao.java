@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 
-import com.sun.media.sound.InvalidDataException;
 
 import database.DBManager;
+import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
 import pojos.User;
@@ -74,7 +74,7 @@ public class UserDao implements IUserDao{
 
 	@Override
 	public void addMovieToFavoriteList(User u, Movie m) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_favorite_movies(user_id , movies_id) VALUES(?, ?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_favorite_movies(users_id , movies_id) VALUES(?, ?)");
 		ps.setInt(1, u.getId());
 		ps.setInt(2, m.getId());
 		ps.executeUpdate();
@@ -84,7 +84,7 @@ public class UserDao implements IUserDao{
 
 	@Override
 	public void addMovieToWatchList(User u, Movie m) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_watchlist_movies(user_id , movies_id) VALUES(?, ?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_watchlist_movies(users_id , movies_id) VALUES(?, ?)");
 		ps.setInt(1, u.getId());
 		ps.setInt(2, m.getId());
 		ps.executeUpdate();
@@ -93,8 +93,18 @@ public class UserDao implements IUserDao{
 	}
 
 	@Override // rating should be between 1 and 10 
-	public void rateMovie(User u, Movie m,int rating) throws SQLException {
-		// TODO rateMovie method in UserDao
+	public void rateMovie(User u, Movie m,int rating) throws SQLException, InvalidDataException {
+		// TODO rateMovie method in UserDao , SHOULD INSERT DOUBLE RATING IN DB!!!!
+		//movies_id and users_id should be PK
+		// if this user already rated this movie it will throw sqlexception(duplicatete primary key) - tested.
+		if(rating<1 || rating>10) {
+			throw new exceptions.InvalidDataException("Invalid entered rating. It should be between 1 and 10");
+		}
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id , movies_id , rating) VALUES(?, ?, ?)");
+		ps.setInt(1, u.getId());
+		ps.setInt(2, m.getId());
+		ps.setInt(3, rating);
+		ps.executeUpdate();
 
 	}
 
