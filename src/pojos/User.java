@@ -18,18 +18,18 @@ public class User {
 	private boolean isAlreadyRated;
 
 	
-	public User(String username,String password,String firstname,String lastname,String email, String phoneNumber) throws InvalidDataException {
+	public User(String username,String password,String firstname,String lastname,String email) throws InvalidDataException {
 		setUsername(username);
 		setPassword(password);
 		setFirstName(firstname);
 		setLastName(lastname);
 		setEmail(email);
-		setPhone(phoneNumber);
 		isAdmin=false;
 	}
 	
 	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber) throws InvalidDataException {
-		this(username, password, firstname, lastname, email, phoneNumber);
+		this(username, password, firstname, lastname, email);
+		this.phone = phoneNumber;
 		setId(id);
 	}
 	

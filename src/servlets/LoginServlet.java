@@ -1,6 +1,5 @@
 package servlets;
 
-import java.awt.List;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import controller.UserManager;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.User;
