@@ -13,6 +13,7 @@ import exceptions.WrongCredentialsException;
 
 public class UserManager {
 	
+	private static final int MIN_LENGTH_OF_PASSWORD = 8;
 	//Singleton and DBconnection
 	private static Connection connection;
 	private static UserManager instance;
@@ -35,6 +36,9 @@ public class UserManager {
 			return true;
 		} catch (SQLException e) {
 			System.out.println("SQLExcp in login " + e.getMessage());
+			throw e;
+		} catch (WrongCredentialsException e) {
+			System.out.println("WrongCrExcp in login " + e.getMessage() );
 			throw e;
 		}
 	}
@@ -63,7 +67,7 @@ public class UserManager {
 	    if(!validation(email)) {
 	    	 throw new InvalidDataException("Invalid e-mail");
 	    }
-	      
+	    
 	    if(!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
 	    	 throw new InvalidDataException("Invalid e-mail");
 	    }   
@@ -107,9 +111,19 @@ public class UserManager {
 		if(!validation(password)) {
 			throw new InvalidDataException("Invalid password");
 	    }
-
-	    if(!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$)") || password.length() < 6) {
-	    	System.out.println("Please enter valid password: atleast one digit, one lowercase, one uppercase and at least one symbol!");
+// old regex "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$)"
+// new regex "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
+//		^                 # start-of-string
+//		(?=.*[0-9])       # a digit must occur at least once
+//		(?=.*[a-z])       # a lower case letter must occur at least once
+//		(?=.*[A-Z])       # an upper case letter must occur at least once
+//		(?=.*[@#$%^&+=])  # a special character must occur at least once
+//		(?=\S+$)          # no whitespace allowed in the entire string
+//		.{8,}             # anything, at least eight places though
+//		$                 # end-of-string
+							// this constant is useless cuz regex checks for atleast 8 
+	    if(!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$") || password.length() < MIN_LENGTH_OF_PASSWORD) { 
+	    	System.out.println("Please enter valid password: atleast one digit, one lowercase, one uppercase, at least one symbol! and no whitespace!");
 	    	throw new InvalidDataException("Invalid password");
 	    }
 	        
