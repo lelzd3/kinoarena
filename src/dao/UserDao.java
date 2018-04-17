@@ -36,12 +36,12 @@ public class UserDao implements IUserDao{
 		PreparedStatement ps = connection.prepareStatement("SELECT password FROM users WHERE username = ?");
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
-		//!BCrypt.checkpw(password, rs.getString("password") TODO encryption but in SERVLET!
+		//TODO encryption but in SERVLET!
 		if (!rs.next() ) {
 			// if there is nothing in result set -> username doesnt exists
 			throw new WrongCredentialsException("Invalid username");
 		}
-		if (!rs.getString("password").equals(password)) {
+		if (! BCrypt.checkpw(password, rs.getString("password") )) { //TODO in servlet?
 			// if there is username but the pass doesnt match -> invalid password
 			throw new WrongCredentialsException("Invalid password");
 		}
@@ -53,8 +53,8 @@ public class UserDao implements IUserDao{
 		
 		PreparedStatement ps = connection.prepareStatement("INSERT INTO users(username, password, email, first_name, last_name , isAdmin) VALUES(?, ?, ?, ?, ?, ?)");
 		ps.setString(1, u.getUsername());
-	//	String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt()); TODO encryption but in SERVLET!
-		ps.setString(2, u.getPassword());
+		String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt()); // TODO encryption but in SERVLET!
+		ps.setString(2, hashedPassword);
 		ps.setString(3, u.getEmail());
 		ps.setString(4, u.getFirstname());
 		ps.setString(5, u.getLastname());
