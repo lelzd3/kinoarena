@@ -10,11 +10,9 @@ import pojos.User;
 
 public interface IReservationDao {
 
-	public void addReservation(User u , Reservation r,ArrayList<Seat> seats) throws Exception;
+	public void addReservation(Reservation r,ArrayList<Seat> seats) throws Exception;
 	
 	public void deleteReservation(Reservation r) throws Exception;
-	
-	public Collection<Reservation> getAllReservations() throws Exception;
 	
 	public Collection<Reservation> getAllReservationsForABroadcast(Broadcast b) throws Exception;
 

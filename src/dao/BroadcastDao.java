@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import database.DBManager;
@@ -31,7 +32,8 @@ public class BroadcastDao implements IBroadcastDao{
 			ps.setInt(1, b.getCinemaId());
 			ps.setInt(2, b.getMovieId());
 			ps.setInt(3, b.getHallId());
-			ps.setString(4, projectionTime.toString());
+			Timestamp ts = Timestamp.valueOf(projectionTime);
+			ps.setTimestamp(4, ts);
 			ps.setInt(5, 100);
 			ps.close();
 			
