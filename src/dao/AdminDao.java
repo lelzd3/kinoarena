@@ -93,7 +93,7 @@ public class AdminDao implements IAdminDao {
 	}
 
 	@Override
-	public void setPromoPercent(User admin, Broadcast b, int promoPercent) throws SQLException, NotAnAdminException {
+	public void setPromoPercent(User admin, Broadcast b, double promoPercent) throws SQLException, NotAnAdminException {
 		if(admin.getIsAdmin()){
 			BroadcastDao.getInstance().setPromoPercent(b, promoPercent);
 		}else{
@@ -102,5 +102,6 @@ public class AdminDao implements IAdminDao {
 		
 	}
 
+	
 
 }

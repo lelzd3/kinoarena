@@ -51,6 +51,11 @@ public class Hall {
 	public void setCinema_id(int cinema_id) {
 		this.cinema_id = cinema_id;
 	}
+
+	@Override
+	public String toString() {
+		return "Hall [id=" + id + ", seats=" + seats + ", cinema_id=" + cinema_id + "]";
+	}
 	
 
 	

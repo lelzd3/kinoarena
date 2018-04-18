@@ -35,5 +35,11 @@ public class Seat {
 		this.column = column;
 	}
 
+	@Override
+	public String toString() {
+		return "Seat [row=" + row + ", column=" + column + "]";
+	}
+
+	
 
 }

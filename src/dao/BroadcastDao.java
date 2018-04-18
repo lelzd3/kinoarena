@@ -34,7 +34,7 @@ public class BroadcastDao implements IBroadcastDao{
 
 	@Override
 	public void addBroadcast(Broadcast b, LocalDateTime projectionTime) throws InvalidDataException, SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO broadcasts(cinemas_id , movies_id, halls_id , projection_time , free_sits) VALUES(?, ?, ? , ? , ?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO broadcasts(cinemas_id , movies_id, halls_id , projection_time , free_sits,price) VALUES(?, ?, ? , ? , ?,?)");
 		ps.setInt(1, b.getCinemaId());
 		ps.setInt(2, b.getMovieId());
 		ps.setInt(3, b.getHallId());
@@ -42,6 +42,8 @@ public class BroadcastDao implements IBroadcastDao{
 		// or Timestamp ts = Timestamp.valueOf(b.getProjectionTime());
 		ps.setTimestamp(4, ts);
 		ps.setInt(5, 100);
+		ps.setDouble(6, b.getPrice());
+		ps.executeUpdate();
 		ps.close();
 			
 	}
@@ -65,7 +67,7 @@ public class BroadcastDao implements IBroadcastDao{
 
 	@Override
 	public Collection<Broadcast> getAllBroadcastsForAMovie(Movie m) throws Exception {
-		PreparedStatement s = connection.prepareStatement("SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits FROM broadcasts WHERE movies_id = ?");
+		PreparedStatement s = connection.prepareStatement("SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits,price FROM broadcasts WHERE movies_id = ?");
 		s.setInt(1, m.getId());
 		HashSet<Broadcast> broadcasts = new HashSet<>();
 		ResultSet result = s.executeQuery();
@@ -76,26 +78,25 @@ public class BroadcastDao implements IBroadcastDao{
 					result.getInt("cinemas_id"),
 					result.getInt("movies_id"),
 					result.getInt("halls_id"),
-					time
+					time,
+					result.getDouble("price")
 					);
 			broadcasts.add(b);
 		}
 		return broadcasts;
 	}
 
-	public void setPromoPercent(Broadcast b, int promoPercent) throws SQLException {
+	@Override
+	public void setPromoPercent(Broadcast b, double promoPercent) throws SQLException {
 		
-		
-		PreparedStatement ps = connection.prepareStatement(
-				"Select price FROM broadcast WHERE id = ? ");
+		PreparedStatement ps = connection.prepareStatement("Select price FROM broadcasts WHERE id = ? ");
 		ps.setInt(1, b.getId());
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		double price = rs.getDouble("price");
 		price = price - (price * promoPercent);
-	    ps = connection.prepareStatement(
-				"UPDATE broadcasts SET price = ? WHERE id = ? ?",
-				Statement.RETURN_GENERATED_KEYS);
+		
+	    ps = connection.prepareStatement("UPDATE broadcasts SET price = ? WHERE id = ?");
 		ps.setDouble(1, price);
 		ps.setLong(2, b.getId());
 		ps.executeUpdate();

@@ -27,10 +27,11 @@ public class User {
 		isAdmin=false;
 	}
 	
-	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber) throws InvalidDataException {
+	public User(int id,String username,String password, String firstname,String lastname, String email, String phoneNumber,boolean isAdmin) throws InvalidDataException {
 		this(username, password, firstname, lastname, email);
-		this.phone = phoneNumber;
+		this.phone=phoneNumber;
 		setId(id);
+		this.isAdmin= isAdmin;
 	}
 	
 	
@@ -124,6 +125,12 @@ public class User {
 			this.phone = phone;
 		}
 	
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", username=" + username
+				+ ", password=" + password + ", email=" + email + ", phone=" + phone + ", isAdmin=" + isAdmin + "]";
 	}
 	
 

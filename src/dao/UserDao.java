@@ -68,7 +68,7 @@ public class UserDao implements IUserDao{
 	@Override
 	public void deleteUser(User u) throws SQLException {
 		
-		String sql = "DELETE FROM usres WHERE id=(?)";
+		String sql = "DELETE FROM users WHERE id=(?)";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		stmt.setInt(1, u.getId());
 		stmt.executeUpdate();
@@ -105,15 +105,13 @@ public class UserDao implements IUserDao{
 			throw new InvalidDataException("Invalid entered rating. It should be between 1 and 10");
 		}
 		
-		int sum = 0;
-		int count = 0;
 		double newRating = 0;
 		int oldRatingGiven = 0;
 		PreparedStatement ps = null;
 		try {
 			connection.setAutoCommit(false);
 			
-			//check if user has rated
+			//check if user has rated and put value in oldRatingGiven
 			ps = connection.prepareStatement("SELECT rating FROM users_rated_movies WHERE users_id = ?");
 			ps.setInt(1, u.getId());
 			ResultSet r = ps.executeQuery();
@@ -121,24 +119,12 @@ public class UserDao implements IUserDao{
 				oldRatingGiven = r.getInt(1);
 			}
 			
-			// gets the number of users that have rated the movie
-			ps = connection.prepareStatement("SELECT COUNT(users_id) FROM users_rated_movies WHERE movie_id = ?");
-			ps.setInt(1, m.getId());
-			ResultSet result = ps.executeQuery();
-			result.next();
-			count = result.getInt(1);
-			
-			// gets the sum of users ratings by now
-			ps = connection.prepareStatement("SELECT SUM(rating) FROM users_rated_movies WHERE movie_id = ?");
-			ps.setInt(1, m.getId());
-			ResultSet result1 = ps.executeQuery();
-			result1.next();
-			sum = result.getInt(1);
-			
-			//delete old entry of user rating in users_rated_movies
-			ps = connection.prepareStatement("DELETE FROM users_rated_movies WHERE users_id = ?");
-			ps.setInt(1,u.getId());
-			ps.executeUpdate();
+			//if oldRatingGiven is > 0 -> delete old entry of user rating in users_rated_movies
+			if(oldRatingGiven > 0) {
+				ps = connection.prepareStatement("DELETE FROM users_rated_movies WHERE users_id = ?");
+				ps.setInt(1,u.getId());
+				ps.executeUpdate();
+			}
 			
 			//put the new entry of user rating in users_rated_movies
 			ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id,movies_id,rating) VALUES(?,?,?)");
@@ -147,14 +133,13 @@ public class UserDao implements IUserDao{
 			ps.setInt(3,rating);
 			ps.executeUpdate();
 			
-			//if user has already rated decrement count
-			if(oldRatingGiven > 0) {
-				count--;
-			}
-			
-			// Sum - old rating 
-			//calculates the new rating , works even if sum,count and oldRatingGiven = 0
-			newRating = ((sum-oldRatingGiven) + rating) / (count+1);
+			//get AVG rating for movies_id = m.getId()
+			ps = connection.prepareStatement("SELECT AVG(rating) FROM users_rated_movies WHERE movies_id = ?");
+			ps.setInt(1, m.getId());
+			ResultSet result2 = ps.executeQuery();
+			result2.next();
+			newRating = result2.getDouble(1);
+			System.out.println("newRating "+newRating);
 			
 			// updates the movie
 			ps = connection.prepareStatement("UPDATE movies SET rating = ? WHERE id = ?");
@@ -189,39 +174,47 @@ public class UserDao implements IUserDao{
 	}
 
 	public User getUser(String username) throws exceptions.InvalidDataException, SQLException {
-		String sql = "SELECT id, first_name, last_name, username, password, email , phone_number FROM users WHERE username = ?";
+		String sql = "SELECT id, first_name, last_name, username, password, email , phone_number,is_Admin FROM users WHERE username = ?";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, username);
 		ResultSet result = ps.executeQuery();
 		result.next();
 		
-		return new User(result.getInt("id"),
+		boolean isAdmin = result.getInt("is_Admin") == 1? true:false;
+		
+		return new User(
+					result.getInt("id"),
 					result.getString("username"),
 					result.getString("password"),
 					result.getString("first_name"),
 					result.getString("last_name"),
 					result.getString("email"),
-					result.getString("phone_number")
+					result.getString("phone_number"),
+					isAdmin
 					);
 		
 	}
 	
 	public void createAdmin(String email) throws SQLException, InvalidDataException{
 		//will trqq if false here works (for isAdmin) , if it dosent work we should use 0 instead of false ,
-		PreparedStatement ps = connection.prepareStatement("SELECT id FROM users WHERE email = ? AND isAdmin = false;");
+		PreparedStatement ps = connection.prepareStatement("SELECT id FROM users WHERE email = ? AND is_Admin = ?");
 		ps.setString(1, email);
+		ps.setInt(2, 0);
 		ResultSet result = ps.executeQuery();
-		//using string here instead of int maybe not be a problem. Use it because of method isEmpty(). If it is an int not sure how to check it
-		String userId = "";
+		
+		String userId = null;
 		while(result.next()){
-			userId.concat(result.getString(1));
+			userId = result.getString(1);
 		}
 		ps.close();
-		if(userId.isEmpty()){
+		
+		if(userId == null){
 			throw new InvalidDataException("Oops, problem in creating an admin! The email maybe is incorrect or user is already an admin");
 		}
-		PreparedStatement statement = connection.prepareStatement("UPDATE  users SET users.isAdmin = true WHERE id = ?;");
-		statement.setString(1, userId);
+		
+		PreparedStatement statement = connection.prepareStatement("UPDATE  users SET is_Admin = ? WHERE id = ?;");
+		statement.setInt(1, 1);
+		statement.setString(2, userId);
 		statement.executeUpdate();
 		statement.close();
 		

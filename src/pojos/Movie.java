@@ -18,6 +18,11 @@ public class Movie  {
 		setRating(rating);
 		setDuration(duration);
 	}
+	
+	public Movie(String title, String description, double rating, double duration,String file_location) throws InvalidDataException {
+		this(title,description,rating,duration);
+		this.file_location=file_location;
+	}
 
 	public Movie(int id,String title, String description, double rating, double duration) throws InvalidDataException {
 		this(title,description,rating,duration);
@@ -48,6 +53,10 @@ public class Movie  {
 	
 	public double getDuration() {
 		return duration;
+	}
+	
+	public String getFileLocation() {
+		return file_location;
 	}
 	
 	//setters
@@ -90,6 +99,14 @@ public class Movie  {
 			throw new InvalidDataException("Invalid duration");
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Movie [id=" + id + ", title=" + title + ", description=" + description + ", rating=" + rating
+				+ ", duration=" + duration + ", file_location=" + file_location + "]";
+	}
+
+	
 	
 	
 

@@ -16,16 +16,17 @@ public interface IAdminDao {
 	
 	public void addNewBroadcast(Broadcast b , LocalDateTime projectionTime, User admin) throws Exception;
 	
-	public void removeMovie(Movie m , User admin) throws SQLException, NotAnAdminException;
+	public void removeMovie(Movie m , User admin) throws Exception;
 	
-	public void removeBroadcast(Broadcast b , User admin) throws SQLException, NotAnAdminException, InvalidDataException;
+	public void removeBroadcast(Broadcast b , User admin) throws Exception;
 	
-	public void changeUserIsAdminStatus(User admin, String email) throws NotAnAdminException, SQLException, InvalidDataException;
+	public void changeUserIsAdminStatus(User admin, String email) throws Exception;
 	
-	public void changeUserIsBannedStatus(User admin, User u, boolean isBanned) throws NotAnAdminException, SQLException, IlligalAdminActionException;
+	public void changeUserIsBannedStatus(User admin, User u, boolean isBanned) throws Exception;
 	
 	// we will use it to make discount on some day/days of the week
-	public void setPromoPercent(User admin, Broadcast b, int promoPercent) throws SQLException, NotAnAdminException;
+	public void setPromoPercent(User admin, Broadcast b, double promoPercent) throws Exception;
+
 	
 	
 

@@ -121,6 +121,12 @@ public class Reservation {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Reservation [id=" + id + ", user_id=" + user_id + ", broadcast_id=" + broadcast_id + ", seats_number="
+				+ seats_number + ", timeReservationIsMade=" + timeReservationIsMade + "]";
+	}
+
 
 	
 

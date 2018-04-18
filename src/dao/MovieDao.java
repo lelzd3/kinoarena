@@ -31,17 +31,18 @@ public class MovieDao implements IMovieDao{
 	@Override
 	public void addMovie(Movie m) throws SQLException {
 		
-		PreparedStatement s = connection.prepareStatement("INSERT INTO movies (title, description,rating,duration) VALUES (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement s = connection.prepareStatement("INSERT INTO movies (title, description,rating,duration,file_location) VALUES (?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 		s.setString(1,m.getTitle());
 		s.setString(2, m.getDescription());
 		s.setDouble(3, m.getRating());
 		s.setDouble(4, m.getDuration());
+		s.setString(5, m.getFileLocation());
 		s.executeUpdate();
 		
 		// set the ID for the instance of Movie m
 		ResultSet result = s.getGeneratedKeys();
 		result.next(); // we write next cuz it starts from -1
-		m.setId((int)result.getLong("id")); // or 1 instead of id
+		m.setId((int)result.getLong(1)); // or 1 instead of id
 		
 		s.close();
 		
@@ -57,7 +58,7 @@ public class MovieDao implements IMovieDao{
 	
 	@Override
 	public Collection<Movie> getAllMovies()  throws SQLException, InvalidDataException {
-		PreparedStatement s = connection.prepareStatement("SELECT id,title,description,rating,duration FROM movies");
+		PreparedStatement s = connection.prepareStatement("SELECT id,title,description,rating,duration,file_location FROM movies");
 		HashSet<Movie> movies = new HashSet<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {
@@ -66,7 +67,8 @@ public class MovieDao implements IMovieDao{
 					result.getString("title"),
 					result.getString("description"),
 					result.getDouble("rating"),
-					result.getDouble("duration")
+					result.getDouble("duration"),
+					result.getString("file_location")
 					);
 			movies.add(m);
 		}

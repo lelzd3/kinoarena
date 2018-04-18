@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -16,4 +17,6 @@ public interface IBroadcastDao {
 	void addBroadcast(Broadcast b, LocalDateTime projectionTime) throws Exception;
 
 	public Collection<Broadcast> getAllBroadcastsForAMovie(Movie m) throws Exception;
+	
+	public void setPromoPercent(Broadcast b, double promoPercent) throws Exception;
 }
