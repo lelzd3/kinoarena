@@ -9,6 +9,7 @@ public class Movie  {
 	private String description;
 	private double rating;
 	private double duration;
+	private String file_location;
 	// FIX ER DIAGRAM!!!!!!!
 	
 	public Movie(String title, String description, double rating, double duration) throws InvalidDataException {
@@ -23,6 +24,10 @@ public class Movie  {
 		setId(id);
 	}
 
+	public Movie(int id,String title, String description, double rating, double duration,String file_location) throws InvalidDataException {
+		this(id,title,description,rating,duration);
+		this.file_location=file_location;
+	}
 	
 	// getters
 	public int getId() {
