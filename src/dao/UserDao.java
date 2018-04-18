@@ -71,6 +71,7 @@ public class UserDao implements IUserDao{
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		stmt.setInt(1, u.getId());
 		stmt.executeUpdate();
+		stmt.close();
 	}
 
 	@Override

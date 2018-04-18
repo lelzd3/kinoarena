@@ -50,10 +50,12 @@ public class RegisterServlet extends HttpServlet {
 			UserDao.getInstance().addUser(u);
 			request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
 
-		} catch (WrongCredentialsException e) {
+		}
+		catch (WrongCredentialsException e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
