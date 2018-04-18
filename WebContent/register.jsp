@@ -17,27 +17,27 @@ response.setHeader("Cache-Control", "no-cache");
 			<table align="center">
 		      	<tr>
 	              	<td>Username:</td>
-	              	<td><input type="text" class="w3-border w3-padding" name="username" required></td>
+	              	<td><input type="text" class="w3-border w3-padding" name="username" required value="Stanislav1"></td>
 	            </tr>
 	            <tr>
 	              	<td>Password:</td>
-	              	<td><input type="password" class="w3-border w3-padding" name="password1" required></td>
+	              	<td><input type="password" class="w3-border w3-padding" name="password1" required value="#12345678sS"></td>
 	            </tr>
 	            <tr>
 	              	<td>Confirm Password:</td>
-	              	<td><input type="password" class="w3-border w3-padding" name="password2" required></td>
+	              	<td><input type="password" class="w3-border w3-padding" name="password2" required value="#12345678sS"></td>
 	            </tr>
 	            <tr>
 	              	<td>Email:</td>
-	              	<td><input type="email" class="w3-border w3-padding" name="email" required></td>
+	              	<td><input type="email" class="w3-border w3-padding" name="email" required value="stan123@abv.bg"></td>
 	            </tr>
 	            <tr>
 	              	<td>First Name:</td>
-	              	<td><input type="text" class="w3-border w3-padding" name="firstName" required></td>
+	              	<td><input type="text" class="w3-border w3-padding" name="firstName" required value="Stanchy"></td>
 	            </tr>
 	            <tr>
 	              	<td>Last Name:</td>
-	              	<td><input type="text" class="w3-border w3-padding" name="lastName" required></td>
+	              	<td><input type="text" class="w3-border w3-padding" name="lastName" required value="Kaliparski"></td>
 	            </tr>
 	           </table>
 	           <button style="margin:auto;display:block" type="submit">Register</button><br>

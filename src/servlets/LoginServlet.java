@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BCrypt;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.User;
@@ -33,10 +34,12 @@ public class LoginServlet extends HttpServlet {
 			String username = request.getParameter("username");
 			String pass = request.getParameter("password");
 			//TODO the rest as well
-			User u = dao.UserDao.getInstance().getUser(username, pass);
+			
+			String hashedPassword = BCrypt.hashpw(pass, BCrypt.gensalt());
+			User u = dao.UserDao.getInstance().getUser(username, hashedPassword);
 			if(u != null) {
 				request.getSession().setAttribute("user", u);
-				request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 			}
 			else {
 				throw new WrongCredentialsException("invalid username or password");

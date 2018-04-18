@@ -52,7 +52,7 @@ public class UserDao implements IUserDao{
 	@Override
 	public void addUser(User u) throws SQLException {
 		
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO users(username, password, email, first_name, last_name , isAdmin) VALUES(?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO users(username, password, email, first_name, last_name , is_Admin) VALUES(?, ?, ?, ?, ?, ?)");
 		ps.setString(1, u.getUsername());
 		String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt()); // TODO encryption but in SERVLET!
 		ps.setString(2, hashedPassword);

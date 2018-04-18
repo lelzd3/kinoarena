@@ -11,7 +11,7 @@ import dao.UserDao;
 import exceptions.WrongCredentialsException;
 import pojos.User;
 
-@WebServlet("/RegisterServlet")
+@WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -48,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
 			User u = new User(username, pass1, firstName, lastName, email);
 			// adding to db
 			UserDao.getInstance().addUser(u);
-			request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 
 		}
 		catch (WrongCredentialsException e) {

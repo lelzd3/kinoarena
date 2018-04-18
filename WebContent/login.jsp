@@ -15,10 +15,10 @@ response.setHeader("Cache-Control", "no-cache");
 		<h1>Login</h1>
 		
 		<form action="login" method="post">
-			Username<input type="text" name="username"><br>
-			Password<input type="password" name="password"><br>
+			Username<input type="text" name="username" value="Stanislav1"><br>
+			Password<input type="password" name="password" value="#12345678sS"><br>
 			<input type="submit" value="Login"><br>
-			Don`t have an account? <a href="register">Register here</a>
+			Don`t have an account? <a href="register.jsp">Register here</a>
 		</form>
 		
 	</body>

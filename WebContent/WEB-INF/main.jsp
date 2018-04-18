@@ -10,10 +10,11 @@ response.setHeader("Cache-Control", "no-cache");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Main Page</title>
+		<% User user = (User) session.getAttribute("user"); %>
 	</head>
 	<body>
-		<h1 align="center">Hello, <%= ((User)request.getAttribute("user")).getUsername()  %></h1>
+		<h1 align="center">Hello, <%= user.getUsername()  %></h1>
 		<br>
 		
 		<form action="login" method="get">
