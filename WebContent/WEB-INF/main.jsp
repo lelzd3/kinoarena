@@ -11,13 +11,18 @@ response.setHeader("Cache-Control", "no-cache");
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Main Page</title>
-		<% User user = (User) session.getAttribute("user"); %>
+		<%
+		//can also be User user = (User) session.getAttribute("user")
+			User user = (User) request.getSession().getAttribute("user"); 
+			String s = session.getId();	
+		%>
 	</head>
 	<body>
 		<h1 align="center">Hello, <%= user.getUsername()  %></h1>
+		<h2 align="center">Session id is <%= s %></h2>
 		<br>
 		
-		<form action="login" method="get">
+		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>
 		</form>
 		
