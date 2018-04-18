@@ -133,12 +133,23 @@ public class UserDao implements IUserDao{
 			result1.next();
 			sum = result.getInt(1);
 			
+			//delete old entry of user rating in users_rated_movies
+			ps = connection.prepareStatement("DELETE FROM users_rated_movies WHERE users_id = ?");
+			ps.setInt(1,u.getId());
+			ps.executeUpdate();
 			
+			//put the new entry of user rating in users_rated_movies
+			ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id,movies_id,rating) VALUES(?,?,?)");
+			ps.setInt(1, u.getId());
+			ps.setInt(2, m.getId());
+			ps.setInt(3,rating);
+			ps.executeUpdate();
 			
 			//if user has already rated decrement count
 			if(oldRatingGiven > 0) {
 				count--;
 			}
+			
 			// Sum - old rating 
 			//calculates the new rating , works even if sum,count and oldRatingGiven = 0
 			newRating = ((sum-oldRatingGiven) + rating) / (count+1);
