@@ -75,7 +75,7 @@ public class AdminDao implements IAdminDao {
 	public void changeUserIsAdminStatus(User admin, String email) throws NotAnAdminException, SQLException, InvalidDataException {
 		
 		if(admin.getIsAdmin()){
-			UserDao.getInstance().createAdmin(email.trim());
+			//UserDao.getInstance().createAdmin(email.trim());
 		}else{
 			throw new NotAnAdminException();
 		}

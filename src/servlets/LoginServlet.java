@@ -13,20 +13,23 @@ import javax.servlet.http.HttpSession;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.User;
+import servlets.sessionutil.Sessions;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		
+		Sessions.validateSession(request, response);
+		
 		
 		try {
+			
 			String username = request.getParameter("username");
 			String pass = request.getParameter("password");
 			//TODO the rest as well
@@ -38,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 			else {
 				throw new WrongCredentialsException("invalid username or password");
 			}
+			
 		}
 		catch (WrongCredentialsException e) {
 			request.setAttribute("exception", e);
