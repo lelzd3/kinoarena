@@ -74,6 +74,12 @@ public class User {
 		return email;
 	}
 	
+	
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+
 	// setters:
 	public void setId(int id) {
 		this.id = id;

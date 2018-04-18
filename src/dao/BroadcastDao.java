@@ -3,12 +3,14 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 
 import database.DBManager;
+import exceptions.InvalidDataException;
 import pojos.Broadcast;
 import pojos.Movie;
 
@@ -30,7 +32,7 @@ public class BroadcastDao implements IBroadcastDao{
 
 
 	@Override
-	public void addBroadcast(Broadcast b, LocalDateTime projectionTime) throws Exception {
+	public void addBroadcast(Broadcast b, LocalDateTime projectionTime) throws InvalidDataException, SQLException {
 		PreparedStatement ps = connection.prepareStatement("INSERT INTO broadcasts(cinemas_id , movies_id, halls_id , projection_time , free_sits) VALUES(?, ?, ? , ? , ?)");
 		ps.setInt(1, b.getCinemaId());
 		ps.setInt(2, b.getMovieId());
@@ -44,7 +46,7 @@ public class BroadcastDao implements IBroadcastDao{
 	}
 	
 	@Override
-	public void deleteBroadcast(Broadcast b) throws Exception {
+	public void deleteBroadcast(Broadcast b) throws InvalidDataException, SQLException {
 		PreparedStatement ps = connection.prepareStatement("DELETE FROM broadcasts WHERE id = ?");
 		ps.setInt(1, b.getId());
 		ps.executeUpdate();
