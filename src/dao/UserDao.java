@@ -1,16 +1,17 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 
 
 import database.DBManager;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
+import pojos.Seat;
 import pojos.User;
 
 public class UserDao implements IUserDao{
@@ -92,19 +93,72 @@ public class UserDao implements IUserDao{
 	
 	}
 
+	@SuppressWarnings("resource")
 	@Override // rating should be between 1 and 10 
 	public void rateMovie(User u, Movie m,int rating) throws SQLException, InvalidDataException {
 		// TODO rateMovie method in UserDao , SHOULD INSERT DOUBLE RATING IN DB!!!!
+		// TODO MOVE rating validation in USER MANAGER or <unknown> SERVLET
 		//movies_id and users_id should be PK
-		// if this user already rated this movie it will throw sqlexception(duplicatete primary key) - tested.
 		if(rating<1 || rating>10) {
-			throw new exceptions.InvalidDataException("Invalid entered rating. It should be between 1 and 10");
+			throw new InvalidDataException("Invalid entered rating. It should be between 1 and 10");
 		}
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id , movies_id , rating) VALUES(?, ?, ?)");
-		ps.setInt(1, u.getId());
-		ps.setInt(2, m.getId());
-		ps.setInt(3, rating);
-		ps.executeUpdate();
+		
+		int sum = 0;
+		int count = 0;
+		double newRating = 0;
+		int oldRatingGiven = 0;
+		PreparedStatement ps = null;
+		try {
+			connection.setAutoCommit(false);
+			
+			//check if user has rated
+			ps = connection.prepareStatement("SELECT rating FROM users_rated_movies WHERE users_id = ?");
+			ps.setInt(1, u.getId());
+			ResultSet r = ps.executeQuery();
+			if(r.next()) {
+				oldRatingGiven = r.getInt(1);
+			}
+			
+			// gets the number of users that have rated the movie
+			ps = connection.prepareStatement("SELECT COUNT(users_id) FROM users_rated_movies WHERE movie_id = ?");
+			ps.setInt(1, m.getId());
+			ResultSet result = ps.executeQuery();
+			result.next();
+			count = result.getInt(1);
+			
+			// gets the sum of users ratings by now
+			ps = connection.prepareStatement("SELECT SUM(rating) FROM users_rated_movies WHERE movie_id = ?");
+			ps.setInt(1, m.getId());
+			ResultSet result1 = ps.executeQuery();
+			result1.next();
+			sum = result.getInt(1);
+			
+			
+			
+			//if user has already rated decrement count
+			if(oldRatingGiven > 0) {
+				count--;
+			}
+			// Sum - old rating 
+			//calculates the new rating , works even if sum,count and oldRatingGiven = 0
+			newRating = ((sum-oldRatingGiven) + rating) / (count+1);
+			
+			// updates the movie
+			ps = connection.prepareStatement("UPDATE movies SET rating = ? WHERE id = ?");
+			ps.setDouble(1, newRating);
+			ps.setInt(2, m.getId());
+			ps.executeUpdate();
+			
+			connection.commit();
+		}
+		catch(SQLException e){
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			ps.close();
+			connection.setAutoCommit(true);
+		}
 
 	}
 

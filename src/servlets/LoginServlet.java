@@ -46,7 +46,8 @@ public class LoginServlet extends HttpServlet {
 		catch (SQLException e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-		} catch (InvalidDataException e) {
+		}
+		catch (InvalidDataException e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
