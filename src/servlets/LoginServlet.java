@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BCrypt;
+import dao.UserDao;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.User;
@@ -26,25 +27,19 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Sessions.validateSession(request, response);
-		
-		
+		//Sessions.validateSession(request, response);
+
 		try {
 			
 			String username = request.getParameter("username");
-			String pass = request.getParameter("password");
+			String password = request.getParameter("password");
 			//TODO the rest as well
 			
-			String hashedPassword = BCrypt.hashpw(pass, BCrypt.gensalt());
-			User u = dao.UserDao.getInstance().getUser(username, hashedPassword);
-			if(u != null) {
-				request.getSession().setAttribute("user", u);
-				request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
-			}
-			else {
-				throw new WrongCredentialsException("invalid username or password");
-			}
+			UserDao.getInstance().loginCheck(username, password);
+			User u = UserDao.getInstance().getUser(username);
 			
+			request.getSession().setAttribute("user", u);
+			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 		}
 		catch (WrongCredentialsException e) {
 			request.setAttribute("exception", e);

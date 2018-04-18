@@ -48,6 +48,8 @@ public class RegisterServlet extends HttpServlet {
 			User u = new User(username, pass1, firstName, lastName, email);
 			// adding to db
 			UserDao.getInstance().addUser(u);
+			
+			request.getSession().setAttribute("user", u);
 			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 
 		}
