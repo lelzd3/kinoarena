@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import database.DBManager;
-import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
