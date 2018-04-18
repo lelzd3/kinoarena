@@ -5,9 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 
 import database.DBManager;
+import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
@@ -207,6 +208,46 @@ public class UserDao implements IUserDao{
 			return null;
 		}
 	}
+	
+	public void createAdmin(String email) throws SQLException, InvalidDataException{
+		//will trqq if false here works (for isAdmin) , if it dosent work we should use 0 instead of false ,
+		PreparedStatement ps = connection.prepareStatement("SELECT id FROM users WHERE email = ? AND isAdmin = false;");
+		ps.setString(1, email);
+		ResultSet result = ps.executeQuery();
+		//using string here instead of int maybe not be a problem. Use it because of method isEmpty(). If it is an int not sure how to check it
+		String userId = "";
+		while(result.next()){
+			userId.concat(result.getString(1));
+		}
+		ps.close();
+		if(userId.isEmpty()){
+			throw new InvalidDataException("Oops, problem in creating an admin! The email maybe is incorrect or user is already an admin");
+		}
+		PreparedStatement statement = connection.prepareStatement("UPDATE  users SET users.isAdmin = true WHERE id = ?;");
+		statement.setString(1, userId);
+		statement.executeUpdate();
+		statement.close();
+		
+	}
+
+	public void changeUserIsBannedStatus(User u, boolean isBanned) throws IlligalAdminActionException, SQLException {
+		
+		if (u.getIsBanned() && isBanned) {
+			throw new IlligalAdminActionException();
+		} else if (!u.getIsBanned() && !isBanned) {
+			throw new IlligalAdminActionException();
+		} else {
+			PreparedStatement ps = connection.prepareStatement("UPDATE users SET isBanned = ? WHERE user_id = ?",
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setBoolean(1, isBanned);
+			ps.setInt(2, u.getId());
+			ps.executeUpdate();
+			ps.close();
+		}
+		
+	}
+
+	
 	
 	
 	

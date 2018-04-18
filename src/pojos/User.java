@@ -15,6 +15,8 @@ public class User {
 	//public boolean activeAccount; useless maybe
 	private Cinema cinema;
 	protected boolean isAdmin;
+	//add into db
+	protected boolean isBanned;
 	
 	public User(String username,String password,String firstname,String lastname,String email) throws InvalidDataException {
 		setUsername(username);
@@ -62,6 +64,10 @@ public class User {
 //		return this.activeAccount;
 //	}
 	
+	public boolean getIsBanned() {
+		return isBanned;
+	}
+	
 	public Cinema getCinema() {
 		return cinema;
 	}
@@ -71,6 +77,12 @@ public class User {
 		return email;
 	}
 	
+	
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+
 	// setters:
 	public void setId(int id) {
 		this.id = id;
@@ -113,6 +125,7 @@ public class User {
 		}
 	
 	}
+	
 
 
 
