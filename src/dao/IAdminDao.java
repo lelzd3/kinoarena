@@ -28,6 +28,5 @@ public interface IAdminDao {
 	public void setPromoPercent(User admin, Broadcast b, int promoPercent) throws SQLException, NotAnAdminException;
 	
 	
-	
 
 }

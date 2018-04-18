@@ -75,7 +75,7 @@ public class AdminDao implements IAdminDao {
 	public void changeUserIsAdminStatus(User admin, String email) throws NotAnAdminException, SQLException, InvalidDataException {
 		
 		if(admin.getIsAdmin()){
-			//UserDao.getInstance().createAdmin(email.trim());
+			UserDao.getInstance().createAdmin(email.trim());
 		}else{
 			throw new NotAnAdminException();
 		}
@@ -83,15 +83,22 @@ public class AdminDao implements IAdminDao {
 	}
 
 	@Override
-	public void changeUserIsBannedStatus(User admin, User u, boolean isBanned)
-			throws NotAnAdminException, SQLException, IlligalAdminActionException {
-		// TODO Auto-generated method stub
+	public void changeUserIsBannedStatus(User admin, User u, boolean isBanned) throws NotAnAdminException, SQLException, IlligalAdminActionException {
+		if(admin.getIsAdmin()){
+			UserDao.getInstance().changeUserIsBannedStatus(u, isBanned);
+		}else{
+			throw new NotAnAdminException();
+		}
 		
 	}
 
 	@Override
 	public void setPromoPercent(User admin, Broadcast b, int promoPercent) throws SQLException, NotAnAdminException {
-		// TODO Auto-generated method stub
+		if(admin.getIsAdmin()){
+			BroadcastDao.getInstance().setPromoPercent(b, promoPercent);
+		}else{
+			throw new NotAnAdminException();
+		}
 		
 	}
 

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -80,6 +81,26 @@ public class BroadcastDao implements IBroadcastDao{
 			broadcasts.add(b);
 		}
 		return broadcasts;
+	}
+
+	public void setPromoPercent(Broadcast b, int promoPercent) throws SQLException {
+		
+		
+		PreparedStatement ps = connection.prepareStatement(
+				"Select price FROM broadcast WHERE id = ? ");
+		ps.setInt(1, b.getId());
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		double price = rs.getDouble("price");
+		price = price - (price * promoPercent);
+	    ps = connection.prepareStatement(
+				"UPDATE broadcasts SET price = ? WHERE id = ? ?",
+				Statement.RETURN_GENERATED_KEYS);
+		ps.setDouble(1, price);
+		ps.setLong(2, b.getId());
+		ps.executeUpdate();
+		ps.close();
+		
 	}
 
 	
