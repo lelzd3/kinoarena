@@ -20,4 +20,5 @@ public interface IBroadcastDao {
 	
 	public void setPromoPercent(Broadcast b, double promoPercent) throws Exception;
 	public Collection<Broadcast> getAllBroadcasts() throws Exception;
+	public Broadcast getBroadcastById(int id) throws Exception;
 }
