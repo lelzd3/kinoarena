@@ -33,6 +33,11 @@ response.setHeader("Cache-Control", "no-cache");
 		</form>
 		<br>
 		
+		<form action="RemoveBroadcast.java" method="get">
+			<button type="submit">Remove Broadcast</button>
+		</form>
+		<br>
+		
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>
 		</form>

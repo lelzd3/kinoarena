@@ -27,7 +27,7 @@
 		%>
 	</select>
 	
-	<form action="removeBroadcast" method="delete" id="removeBroadcastForm" name="removeBroadcastForm">
+	<form action="broadcast" method="delete" id="removeBroadcastForm" name="removeBroadcastForm">
 			<input type="submit" value="removeBroadcast">
 	</form> 
 

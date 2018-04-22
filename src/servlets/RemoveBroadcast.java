@@ -19,6 +19,24 @@ import pojos.User;
 public class RemoveBroadcast extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		try {
+			//get genders from db
+			List<Broadcast> broadcasts = (List<Broadcast>) BroadcastDao.getInstance().getAllBroadcasts();
+			//add them to request
+			req.setAttribute("broadcasts", broadcasts);
+			//forward this request to removeBroadcast.jsp
+			req.getRequestDispatcher("removeBroadcast.jsp").forward(req, resp);
+		} catch (Exception e) {
+			req.getRequestDispatcher("error.jsp").forward(req, resp);
+		}
+	}
+	
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -34,20 +52,6 @@ public class RemoveBroadcast extends HttpServlet {
 		}
 
 	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		try {
-			//get genders from db
-			List<Broadcast> broadcasts = (List<Broadcast>) BroadcastDao.getInstance().getAllBroadcasts();
-			//add them to request
-			req.setAttribute("broadcasts", broadcasts);
-			//forward this request to removeBroadcast.jsp
-			req.getRequestDispatcher("removeBroadcast.jsp").forward(req, resp);
-		} catch (Exception e) {
-			req.getRequestDispatcher("error.jsp").forward(req, resp);
-		}
-	}
+
 
 }
