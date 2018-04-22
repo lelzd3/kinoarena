@@ -43,10 +43,10 @@ public class AdminManager {
 	
 
 
-	public void addNewBroadcast(Broadcast b, LocalDateTime projectionTime, User admin) throws SQLException, NotAnAdminException, InvalidDataException {
+	public void addNewBroadcast(Broadcast b,User admin) throws SQLException, NotAnAdminException, InvalidDataException {
 		
 		if(admin.getIsAdmin()){
-			BroadcastDao.getInstance().addBroadcast(b, projectionTime);
+			BroadcastDao.getInstance().addBroadcast(b);
 		}else{
 			throw new NotAnAdminException();
 		}

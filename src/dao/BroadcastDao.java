@@ -34,12 +34,12 @@ public class BroadcastDao implements IBroadcastDao{
 
 
 	@Override
-	public void addBroadcast(Broadcast b, LocalDateTime projectionTime) throws InvalidDataException, SQLException {
+	public void addBroadcast(Broadcast b) throws InvalidDataException, SQLException {
 		PreparedStatement ps = connection.prepareStatement("INSERT INTO broadcasts(cinemas_id , movies_id, halls_id , projection_time , free_sits,price) VALUES(?, ?, ? , ? , ?,?)");
 		ps.setInt(1, b.getCinemaId());
 		ps.setInt(2, b.getMovieId());
 		ps.setInt(3, b.getHallId());
-		Timestamp ts = Timestamp.valueOf(projectionTime);
+		Timestamp ts = Timestamp.valueOf(b.getProjectionTime());
 		// or Timestamp ts = Timestamp.valueOf(b.getProjectionTime());
 		ps.setTimestamp(4, ts);
 		ps.setInt(5, 100);

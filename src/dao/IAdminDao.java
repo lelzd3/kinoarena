@@ -14,7 +14,7 @@ public interface IAdminDao {
 
 	public void addNewMovie(Movie m , User admin) throws SQLException, NotAnAdminException;
 	
-	public void addNewBroadcast(Broadcast b , LocalDateTime projectionTime, User admin) throws Exception;
+	public void addNewBroadcast(Broadcast b ,User admin) throws Exception;
 	
 	public void removeMovie(Movie m , User admin) throws Exception;
 	

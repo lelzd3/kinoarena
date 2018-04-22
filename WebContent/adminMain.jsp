@@ -27,12 +27,11 @@ response.setHeader("Cache-Control", "no-cache");
 		<h1 align="center">Hello admin, <%= admin.getUsername()  %></h1>
 		<h2 align="center">Session id is <%= s %></h2>
 		<br>
-		
-		 <a href="addBroadcast.jsp">Add broadcast</a>
-		
+
 		<form action="addBroadcast.jsp" method="get">
 			<button type="submit">Add Broadcast</button>
 		</form>
+		<br>
 		
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>

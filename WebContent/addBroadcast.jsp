@@ -20,29 +20,46 @@
 			ArrayList<Movie> movies = (ArrayList<Movie>) application.getAttribute("movies");
 			ArrayList<Cinema> cinemas = (ArrayList<Cinema>) application.getAttribute("cinemas");
 			ArrayList<Hall> halls = (ArrayList<Hall>) application.getAttribute("halls");
+			//TODO make getAllHallsForCinema() so we can show all hows for the specific ciname chosen in the select
 		%>
 	</head>
 	<body>
+	
+		<br>
 		<select name="movieSelect" form="addBroadcastForm">
 			<% for( Movie m : movies){ %>
-		 		 <option value="<%= m.getTitle()  %>"><%= m.getTitle()  %></option>
+		 		 <option value="<%= m.getId() %>"><%= m.getTitle()  %></option>
 			<% } %>
 		</select>
+		<br>
 		
+		<br>
 		<select name="cinemaSelect" form="addBroadcastForm">
 			<% for( Cinema c : cinemas){ %>
-		 		 <option value="<%= c.getId() %>"> <%= c.getId()  %></option>
+		 		 <option value="<%= c.getId() %>"> <%= c.getName()  %></option>
 			<% } %>
 		</select>
+		<br>
 		
+		<br>
 		<select name="hallSelect" form="addBroadcastForm">
 			<% for( Hall h : halls){ %>
 		 		 <option value="<%= h.getId()  %>"><%= h.getId()  %></option>
 			<% } %>
 		</select>
+		<br>
+		
+		<br>
 		<form action="addBroadcast" method="post" id="addBroadcastForm" name="addBroadcastForm">
+			<input type="datetime-local" name="projection_time">
+			<br>
+			<input type="number" name= "free_sits">
+			<br>
+			<input type="number" name= "price">
+			<br>
 			<input type="submit" value="addBroadcast">
 		</form> 	
+		<br>
 		
 	</body>
 </html>
