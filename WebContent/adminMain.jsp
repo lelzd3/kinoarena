@@ -43,6 +43,11 @@ response.setHeader("Cache-Control", "no-cache");
 		</form>
 		<br>
 		
+		<form action="setDiscount.jsp" method="get">
+			<button type="submit">Make discount on a broadcast </button>
+		</form>
+		<br>
+		
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>
 		</form>

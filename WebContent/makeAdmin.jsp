@@ -18,13 +18,12 @@
 		<br>
 		<select name="usersSelect" form="makeAdminFrom">
 			<% for( User u : users){ %>
-		 		 <option value="<%= u.getEmail() %>"><%= u.getEmail()  %></option>
+		 		 <option value="<%= u.getEmail() %>"><%= u.getUsername()  %></option>
 			<% } %>
 		</select>
 		
 		<br>
 		<form action="makeAdmin" method="post" id="makeAdminForm" name="makeAdminForm">
-			<input type="email" name="email">
 			<input type="submit" value="makeAdmin">
 
 </body>

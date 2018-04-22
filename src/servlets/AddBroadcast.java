@@ -33,6 +33,7 @@ public class AddBroadcast extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			
 			int movie_id = Integer.parseInt(request.getParameter("movieSelect"));
 			int cinema_id = Integer.parseInt(request.getParameter("cinemaSelect"));
 			int hall_id = Integer.parseInt(request.getParameter("hallSelect"));
