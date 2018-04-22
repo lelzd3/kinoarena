@@ -15,40 +15,45 @@ import dao.BroadcastDao;
 import pojos.Broadcast;
 import pojos.User;
 
-@WebServlet("/RemoveBroadcast")
+@WebServlet("/removeBroadcastServlet")
 public class RemoveBroadcast extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		try {
-			//get genders from db
-			List<Broadcast> broadcasts = (List<Broadcast>) BroadcastDao.getInstance().getAllBroadcasts();
-			//add them to request
-			req.setAttribute("broadcasts", broadcasts);
-			//forward this request to removeBroadcast.jsp
-			req.getRequestDispatcher("removeBroadcast.jsp").forward(req, resp);
-		} catch (Exception e) {
-			req.getRequestDispatcher("error.jsp").forward(req, resp);
-		}
-	}
-	
+//	@Override
+//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		
+//		try {
+//			//get genders from db
+//			List<Broadcast> broadcasts = (List<Broadcast>) BroadcastDao.getInstance().getAllBroadcasts();
+//			//add them to request
+//			request.setAttribute("broadcasts", broadcasts);
+//			//forward this request to removeBroadcast.jsp
+//			request.getRequestDispatcher("removeBroadcast.jsp").forward(request, response);
+//		} catch (Exception e) {
+//			request.setAttribute("exception", e);
+//			request.getRequestDispatcher("error.jsp").forward(request, response);
+//		}
+//	}
+//	
 
 	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession s = req.getSession();
-			User admin = (User) s.getAttribute("user");
+			User admin = (User) request.getSession().getAttribute("admin");
 			// if not work , should try with long because of types in DB
-			int broadcastId = Integer.parseInt(req.getParameter("broadcastId"));
+			
+			int broadcastId = Integer.parseInt(request.getParameter("broadcastSelect"));
+			
 			Broadcast broadcastToDelete = BroadcastDao.getInstance().getBroadcastById(broadcastId);
+			//TODO use ADMIN MANAGER -> IF ADMINMANAGER doesnt work -> fix manager
 			AdminDao.getInstance().removeBroadcast(broadcastToDelete, admin);
+			request.getRequestDispatcher("adminMain.jsp").forward(request, response);
 		} catch (Exception e) {
-			System.out.println("Sql : " + e.getMessage());
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 
 	}

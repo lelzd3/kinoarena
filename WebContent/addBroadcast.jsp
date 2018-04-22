@@ -14,8 +14,7 @@
 		<title>Add Broadcast page</title>
 		<%
 		//can also be User user = (User) session.getAttribute("user")
-			User admin = (User) request.getSession().getAttribute("admin"); 
-			String s = session.getId();
+			User admin = (User) request.getSession().getAttribute("admin");
 			//List<Broadcast> broadcasts = (List<Broadcast>) application.getAttribute("broadcasts");
 			ArrayList<Movie> movies = (ArrayList<Movie>) application.getAttribute("movies");
 			ArrayList<Cinema> cinemas = (ArrayList<Cinema>) application.getAttribute("cinemas");
