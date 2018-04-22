@@ -237,7 +237,28 @@ public class UserDao implements IUserDao{
 		
 	}
 
-	
+	//TODO SHOULD TEST THIS METHOD
+	public User getUserByEmail(String email) throws exceptions.InvalidDataException, SQLException {
+		String sql = "SELECT id, first_name, last_name, username, password, email , phone_number,is_Admin FROM users WHERE email = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, email);
+		ResultSet result = ps.executeQuery();
+		result.next();
+		
+		boolean isAdmin = result.getInt("is_Admin") == 1? true:false;
+		
+		return new User(
+					result.getInt("id"),
+					result.getString("username"),
+					result.getString("password"),
+					result.getString("first_name"),
+					result.getString("last_name"),
+					result.getString("email"),
+					result.getString("phone_number"),
+					isAdmin
+					);
+		
+	}
 	
 	
 	
