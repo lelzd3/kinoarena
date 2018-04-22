@@ -30,20 +30,18 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		//Sessions.validateSession(request, response);
-
+		
 		try {
 			
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			//TODO the rest as well
 			
 			UserDao.getInstance().loginCheck(username, password);
-			User u = UserDao.getInstance().getUser(username);
+			User user = UserDao.getInstance().getUser(username);
 			
-			if(u.getIsAdmin()) {
-				request.getSession().setAttribute("admin", u);
+			if(user.getIsAdmin()) {
+				request.getSession().setAttribute("admin", user);
 				getServletConfig().getServletContext().setAttribute("broadcasts", BroadcastDao.getInstance().getAllBroadcasts());
 				getServletConfig().getServletContext().setAttribute("movies", MovieDao.getInstance().getAllMovies());
 				getServletConfig().getServletContext().setAttribute("halls", HallDao.getInstance().getAllHalls());
@@ -51,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 				request.getRequestDispatcher("adminMain.jsp").forward(request, response);
 			}
 			else {
-				request.getSession().setAttribute("user", u);
+				request.getSession().setAttribute("user", user);
 				request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 			}
 			

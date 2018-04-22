@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import database.DBManager;
 import exceptions.InvalidDataException;
 import pojos.Cinema;
-import pojos.Hall;
 
 public class CinemaDao implements ICinemaDao{
 

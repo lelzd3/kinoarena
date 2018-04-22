@@ -8,15 +8,13 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
-import com.sun.media.sound.InvalidDataException;
 
 import database.DBManager;
+import exceptions.InvalidDataException;
 import pojos.Broadcast;
 import pojos.Reservation;
 import pojos.Seat;
-import pojos.User;
 
 public class ReservationDao implements IReservationDao {
 
@@ -100,7 +98,7 @@ public class ReservationDao implements IReservationDao {
 	public Collection<Reservation> getAllReservationsForABroadcast(Broadcast b) throws SQLException, InvalidDataException {
 		PreparedStatement s = connection.prepareStatement("SELECT id,users_id,broadcast_id,seats_number,time FROM reservations WHERE broadcast_id = ?");
 		s.setInt(1, b.getId());
-		HashSet<Reservation> reservations = new HashSet<>();
+		ArrayList<Reservation> reservations = new ArrayList<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {
 			LocalDateTime time = result.getTimestamp("time").toLocalDateTime();

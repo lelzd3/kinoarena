@@ -7,10 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-
 import database.DBManager;
 import exceptions.InvalidDataException;
+import pojos.Cinema;
 import pojos.Hall;
 
 public class HallDao implements IHallDao{
@@ -58,6 +57,23 @@ public class HallDao implements IHallDao{
 	@Override
 	public Collection<Hall> getAllHalls()  throws SQLException, InvalidDataException {
 		PreparedStatement s = connection.prepareStatement("SELECT id,seats,cinemas_id FROM halls");
+		ArrayList<Hall> halls = new ArrayList<>();
+		ResultSet result = s.executeQuery();
+		while(result.next()) {
+			Hall h = new Hall(
+							  result.getInt("id"),
+							  result.getInt("seats"),
+							  result.getInt("cinemas_id")
+							  );
+			halls.add(h);
+		}
+		return halls;
+	}
+
+	@Override
+	public Collection<Hall> getAllHallsForACinema(Cinema c) throws Exception {
+		PreparedStatement s = connection.prepareStatement("SELECT id,seats,cinemas_id FROM halls WHERE cinemas_id = ?");
+		s.setInt(1, c.getId());
 		ArrayList<Hall> halls = new ArrayList<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {

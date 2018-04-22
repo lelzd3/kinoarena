@@ -44,13 +44,11 @@ public class AdminManager {
 
 
 	public void addNewBroadcast(Broadcast b,User admin) throws SQLException, NotAnAdminException, InvalidDataException {
-		
 		if(admin.getIsAdmin()){
 			BroadcastDao.getInstance().addBroadcast(b);
 		}else{
 			throw new NotAnAdminException();
-		}
-		
+		}	
 	}
 
 
@@ -60,13 +58,11 @@ public class AdminManager {
 			MovieDao.getInstance().deleteMovie(m);;
 		}else{
 			throw new NotAnAdminException();
-		}
-		
+		}	
 	}
 
 
-	public void removeBroadcast(Broadcast b, User admin) throws SQLException, NotAnAdminException, InvalidDataException {
-		
+	public void removeBroadcast(Broadcast b, User admin) throws SQLException, NotAnAdminException, InvalidDataException {	
 		if(admin.getIsAdmin()){
 			BroadcastDao.getInstance().deleteBroadcast(b);;
 		}else{
@@ -76,13 +72,11 @@ public class AdminManager {
 
 
 	public void changeUserIsAdminStatus(User admin, String email) throws NotAnAdminException, SQLException, InvalidDataException {
-		
 		if(admin.getIsAdmin()){
 			UserDao.getInstance().createAdmin(email.trim());
 		}else{
 			throw new NotAnAdminException();
 		}
-		
 	}
 
 
@@ -92,7 +86,6 @@ public class AdminManager {
 		}else{
 			throw new NotAnAdminException();
 		}
-		
 	}
 
 
@@ -102,7 +95,6 @@ public class AdminManager {
 		}else{
 			throw new NotAnAdminException();
 		}
-		
 	}
 	
 }
