@@ -11,7 +11,6 @@
 		
 		<%
 			User admin = (User) request.getSession().getAttribute("admin");
-			String s = session.getId();
 			ArrayList<Broadcast> broadcasts = (ArrayList<Broadcast>) application.getAttribute("broadcasts");
 		%>
 	</head>

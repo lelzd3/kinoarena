@@ -14,14 +14,12 @@ import pojos.User;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String username = request.getParameter("username");
 			String pass1 = request.getParameter("password1");
@@ -29,6 +27,7 @@ public class RegisterServlet extends HttpServlet {
 			String email = request.getParameter("email");
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
+			
 			if (username.isEmpty() || username.length() < 5) {
 				throw new WrongCredentialsException("username must be at least 5 chars long");
 			}
@@ -45,11 +44,11 @@ public class RegisterServlet extends HttpServlet {
 				throw new WrongCredentialsException("Invalid entered last name");
 			}
 			// creating new user with these details
-			User u = new User(username, pass1, firstName, lastName, email);
+			User user = new User(username, pass1, firstName, lastName, email);
 			// adding to db
-			UserDao.getInstance().addUser(u);
+			UserDao.getInstance().addUser(user);
 			
-			request.getSession().setAttribute("user", u);
+			request.getSession().setAttribute("user", user);
 			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
 
 		}

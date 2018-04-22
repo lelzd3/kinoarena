@@ -3,7 +3,8 @@ package pojos;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import com.sun.media.sound.InvalidDataException;
+import exceptions.InvalidDataException;
+
 
 public class Reservation {
 	

@@ -2,6 +2,7 @@ package dao;
 
 import java.util.Collection;
 
+import pojos.Cinema;
 import pojos.Hall;
 
 public interface IHallDao {
@@ -12,4 +13,6 @@ public interface IHallDao {
 
 	public Collection<Hall> getAllHalls() throws Exception;
 
+	public Collection<Hall> getAllHallsForACinema(Cinema c) throws Exception;
+	
 }
