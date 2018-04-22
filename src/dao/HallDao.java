@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -56,14 +57,14 @@ public class HallDao implements IHallDao{
 	
 	@Override
 	public Collection<Hall> getAllHalls()  throws SQLException, InvalidDataException {
-		PreparedStatement s = connection.prepareStatement("SELECT id,seats,cinema_id FROM halls");
-		HashSet<Hall> halls = new HashSet<>();
+		PreparedStatement s = connection.prepareStatement("SELECT id,seats,cinemas_id FROM halls");
+		ArrayList<Hall> halls = new ArrayList<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {
 			Hall h = new Hall(
 							  result.getInt("id"),
 							  result.getInt("seats"),
-							  result.getInt("cinema_id")
+							  result.getInt("cinemas_id")
 							  );
 			halls.add(h);
 		}

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -102,6 +103,26 @@ public class BroadcastDao implements IBroadcastDao{
 		ps.executeUpdate();
 		ps.close();
 		
+	}
+
+	@Override
+	public Collection<Broadcast> getAllBroadcasts() throws Exception {
+		PreparedStatement s = connection.prepareStatement("SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits,price FROM broadcasts");
+		ArrayList<Broadcast> broadcasts = new ArrayList<>();
+		ResultSet result = s.executeQuery();
+		while(result.next()) {
+			LocalDateTime time = result.getTimestamp("projection_time").toLocalDateTime();
+			Broadcast b = new Broadcast(
+					result.getInt("id"),
+					result.getInt("cinemas_id"),
+					result.getInt("movies_id"),
+					result.getInt("halls_id"),
+					time,
+					result.getDouble("price")
+					);
+			broadcasts.add(b);
+		}
+		return broadcasts;
 	}
 
 	

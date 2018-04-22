@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BCrypt;
+import dao.BroadcastDao;
+import dao.CinemaDao;
+import dao.HallDao;
+import dao.MovieDao;
 import dao.UserDao;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
@@ -38,10 +42,22 @@ public class LoginServlet extends HttpServlet {
 			UserDao.getInstance().loginCheck(username, password);
 			User u = UserDao.getInstance().getUser(username);
 			
-			request.getSession().setAttribute("user", u);
-			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
+			if(u.getIsAdmin()) {
+				request.getSession().setAttribute("admin", u);
+				getServletConfig().getServletContext().setAttribute("broadcasts", BroadcastDao.getInstance().getAllBroadcasts());
+				getServletConfig().getServletContext().setAttribute("movies", MovieDao.getInstance().getAllMovies());
+				getServletConfig().getServletContext().setAttribute("halls", HallDao.getInstance().getAllHalls());
+				getServletConfig().getServletContext().setAttribute("cinemas", CinemaDao.getInstance().getAllCinemas());
+				request.getRequestDispatcher("adminMain.jsp").forward(request, response);
+			}
+			else {
+				request.getSession().setAttribute("user", u);
+				request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
+			}
+			
 		}
 		catch (WrongCredentialsException e) {
+			//TODO maybe forward to login with failed login message
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
@@ -50,6 +66,9 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 		catch (InvalidDataException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (Exception e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}

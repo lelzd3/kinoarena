@@ -19,4 +19,5 @@ public interface IBroadcastDao {
 	public Collection<Broadcast> getAllBroadcastsForAMovie(Movie m) throws Exception;
 	
 	public void setPromoPercent(Broadcast b, double promoPercent) throws Exception;
+	public Collection<Broadcast> getAllBroadcasts() throws Exception;
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -57,7 +58,7 @@ public class CinemaDao implements ICinemaDao{
 	@Override
 	public Collection<Cinema> getAllCinemas()  throws SQLException, InvalidDataException {
 		PreparedStatement s = connection.prepareStatement("SELECT id,name,address FROM cinemas");
-		HashSet<Cinema> cinemas = new HashSet<>();
+		ArrayList<Cinema> cinemas = new ArrayList<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {
 			Cinema c = new Cinema(

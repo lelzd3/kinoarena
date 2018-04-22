@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import database.DBManager;
 import exceptions.InvalidDataException;
@@ -59,7 +61,7 @@ public class MovieDao implements IMovieDao{
 	@Override
 	public Collection<Movie> getAllMovies()  throws SQLException, InvalidDataException {
 		PreparedStatement s = connection.prepareStatement("SELECT id,title,description,rating,duration,file_location FROM movies");
-		HashSet<Movie> movies = new HashSet<>();
+		ArrayList<Movie> movies = new ArrayList<>();
 		ResultSet result = s.executeQuery();
 		while(result.next()) {
 			Movie m = new Movie(

@@ -29,6 +29,7 @@ public class AdminDao implements IAdminDao {
 	}
 
 	
+	// TODO switch all methods used here from USERDAO to HERE, and remove validations! and put validations in MANAGER
 	@Override
 	public void addNewMovie(Movie m, User admin) throws SQLException, NotAnAdminException {
 		if(admin.getIsAdmin()){
