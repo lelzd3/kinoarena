@@ -54,7 +54,7 @@ public class BroadcastDao implements IBroadcastDao {
 	}
 
 	@Override
-	public void changeBroadcastProjectionTime(Broadcast b, LocalDateTime projectionTime) throws Exception {
+	public void changeBroadcastProjectionTime(Broadcast b, LocalDateTime projectionTime) throws SQLException   {
 		PreparedStatement ps = connection.prepareStatement("UPDATE broadcasts SET projection_time = ? WHERE id = ?");
 		Timestamp time = Timestamp.valueOf(projectionTime);
 		ps.setTimestamp(1, time);
@@ -63,7 +63,7 @@ public class BroadcastDao implements IBroadcastDao {
 	}
 
 	@Override
-	public Collection<Broadcast> getAllBroadcastsForAMovie(Movie m) throws Exception {
+	public Collection<Broadcast> getAllBroadcastsForAMovie(Movie m) throws SQLException, InvalidDataException  {
 		PreparedStatement s = connection.prepareStatement(
 				"SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits,price FROM broadcasts WHERE movies_id = ?");
 		s.setInt(1, m.getId());
@@ -97,7 +97,7 @@ public class BroadcastDao implements IBroadcastDao {
 	}
 
 	@Override
-	public Collection<Broadcast> getAllBroadcasts() throws Exception {
+	public Collection<Broadcast> getAllBroadcasts() throws InvalidDataException, SQLException  {
 		PreparedStatement s = connection.prepareStatement("SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits,price FROM broadcasts");
 		ArrayList<Broadcast> broadcasts = new ArrayList<>();
 		ResultSet result = s.executeQuery();
@@ -110,7 +110,7 @@ public class BroadcastDao implements IBroadcastDao {
 		return broadcasts;
 	}
 
-	public Broadcast getBroadcastById(int id) throws Exception {
+	public Broadcast getBroadcastById(int id) throws SQLException, InvalidDataException {
 		// should test this method
 		PreparedStatement s = connection.prepareStatement("SELECT id,cinemas_id,movies_id,halls_id,projection_time,free_sits,price FROM broadcasts WHERE id = ?");
 		s.setInt(1, id);

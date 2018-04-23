@@ -24,7 +24,7 @@ public class MakeAdmin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-		//get the email of this user who we want to be an admin
+		//get the email of this user who we want to be an admin from the select
 		String emailToBeAdmin = request.getParameter("usersSelect");
 		AdminManager.getInstance().changeUserIsAdminStatus((User) request.getSession().getAttribute("admin"), emailToBeAdmin);
 		request.getRequestDispatcher("adminMain.jsp").forward(request, response);

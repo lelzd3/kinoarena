@@ -8,9 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import dao.BCrypt;
 import dao.BroadcastDao;
 import dao.CinemaDao;
 import dao.HallDao;
@@ -19,7 +16,6 @@ import dao.UserDao;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.User;
-import servlets.sessionutil.Sessions;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -39,14 +35,17 @@ public class LoginServlet extends HttpServlet {
 			
 			UserDao.getInstance().loginCheck(username, password);
 			User user = UserDao.getInstance().getUser(username);
-			
 			if(user.getIsAdmin()) {
+
 				request.getSession().setAttribute("admin", user);
 				getServletConfig().getServletContext().setAttribute("broadcasts", BroadcastDao.getInstance().getAllBroadcasts());
 				getServletConfig().getServletContext().setAttribute("movies", MovieDao.getInstance().getAllMovies());
 				getServletConfig().getServletContext().setAttribute("halls", HallDao.getInstance().getAllHalls());
 				getServletConfig().getServletContext().setAttribute("cinemas", CinemaDao.getInstance().getAllCinemas());
+				//TODO USE USER MANAGER
+				getServletConfig().getServletContext().setAttribute("users", UserDao.getInstance().getAllUsers());
 				request.getRequestDispatcher("adminMain.jsp").forward(request, response);
+				
 			}
 			else {
 				request.getSession().setAttribute("user", user);
@@ -66,10 +65,10 @@ public class LoginServlet extends HttpServlet {
 		catch (InvalidDataException e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-		} catch (Exception e) {
+		}/* catch (Exception e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
-		}
+		}*/
 		
 	}
 	

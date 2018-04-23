@@ -15,6 +15,11 @@ response.setHeader("Cache-Control", "no-cache");
 		<h1>Error...</h1>
 		<% Exception e = (Exception) request.getAttribute("exception"); %>
 		<h2>Reason: <%= e.getMessage() %></h2>
+		<h3>Exception <%= e.getStackTrace() %></h3>
+		<h4>Excp <%= e.getLocalizedMessage() %></h4>
+		<h5>E <%= e.getCause() %></h5>
+		<h6>E <%= e.getClass().getName() %></h6>
 		<a href="login.jsp">Back to login, sorry about that</a>
+		
 	</body>
 </html>

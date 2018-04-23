@@ -25,32 +25,27 @@
 	
 	<body>
 	
-		<br>
-		<select name="movieSelect" form="addBroadcastForm">
-			<% for( Movie movie : movies){ %>
-		 		 <option value="<%= movie.getId() %>"><%= movie.getTitle()  %></option>
-			<% } %>
-		</select>
-		<br>
-		
-		<br>
-		<select name="cinemaSelect" form="addBroadcastForm">
-			<% for( Cinema cinema : cinemas){ %>
-		 		 <option value="<%= cinema.getId() %>"> <%= cinema.getName()  %></option>
-			<% } %>
-		</select>
-		<br>
-		
-		<br>
-		<select name="hallSelect" form="addBroadcastForm">
-			<% for( Hall hall : halls){ %>
-		 		 <option value="<%= hall.getId()  %>"><%= hall.getId()  %></option>
-			<% } %>
-		</select>
-		<br>
-		
-		<br>
+	
 		<form action="addBroadcast" method="post" id="addBroadcastForm" name="addBroadcastForm">
+			<br>
+			<select name="movieSelect">
+				<% for( Movie movie : movies){ %>
+			 		 <option value="<%= movie.getId() %>"><%= movie.getTitle()  %></option>
+				<% } %>
+			</select>
+			<br>
+			<select name="cinemaSelect">
+				<% for( Cinema cinema : cinemas){ %>
+			 		 <option value="<%= cinema.getId() %>"> <%= cinema.getName()  %></option>
+				<% } %>
+			</select>
+			<br>
+			<select name="hallSelect">
+				<% for( Hall hall : halls){ %>
+			 		 <option value="<%= hall.getId()  %>"><%= hall.getId()  %></option>
+				<% } %>
+			</select>
+			<br>
 			<input type="datetime-local" name="projection_time">
 			<br>
 			<input type="number" name= "free_sits">

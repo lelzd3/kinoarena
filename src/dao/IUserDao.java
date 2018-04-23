@@ -1,8 +1,8 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.Collection;
 
-import com.sun.media.sound.InvalidDataException;
 
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
@@ -22,11 +22,10 @@ public interface IUserDao {
 	
 	public void rateMovie(User u , Movie m, int rating) throws Exception;
 	
-	public void existingUserNameCheck(String username) throws InvalidDataException, SQLException, exceptions.InvalidDataException;
-	
+	public void existingUserNameCheck(String username) throws Exception;
 	//TODO add phone number method
 
-	
+	public Collection<User> getAllUsers() throws Exception;
 
 
 

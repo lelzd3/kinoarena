@@ -1,18 +1,18 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import database.DBManager;
 import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
 import pojos.Movie;
-import pojos.Seat;
 import pojos.User;
 
 public class UserDao implements IUserDao{
@@ -173,7 +173,7 @@ public class UserDao implements IUserDao{
 		ps.close();
 	}
 
-	public User getUser(String username) throws exceptions.InvalidDataException, SQLException {
+	public User getUser(String username) throws InvalidDataException, SQLException {
 		String sql = "SELECT id, first_name, last_name, username, password, email , phone_number,is_Admin FROM users WHERE username = ?";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, username);
@@ -259,8 +259,30 @@ public class UserDao implements IUserDao{
 					);
 		
 	}
-	
-	
+
+	@Override
+	public Collection<User> getAllUsers() throws SQLException, InvalidDataException   {
+		PreparedStatement ps = connection.prepareStatement("SELECT id, first_name, last_name, username, password, email , phone_number,is_Admin FROM users");
+		ResultSet result = ps.executeQuery();
+		ArrayList<User> users = new ArrayList<User>();
+		
+		
+		while(result.next()) {
+			boolean isAdmin = result.getInt("is_Admin") == 1? true:false;
+			User user = new User(
+					result.getInt("id"),
+					result.getString("username"),
+					result.getString("password"),
+					result.getString("first_name"),
+					result.getString("last_name"),
+					result.getString("email"),
+					result.getString("phone_number"),
+					isAdmin
+					);
+			users.add(user);
+		}
+		return users;
+	}
 	
 	
 }

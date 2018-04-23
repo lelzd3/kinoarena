@@ -16,17 +16,16 @@
 	</head>
 	<body>
 	
-		<select name="broadcastSelect" form="removeBroadcastForm">
-			<%
-				for (Broadcast b : broadcasts) {
-			%>
-			<option value="<%= b.getId() %>"><%=b.getId() +" "+ b.getMovieId() + " " + b.getProjectionTime()+" "%></option>
-			<%
-				}
-			%>
-		</select>
+		
 		
 		<form action="removeBroadcastServlet" method="post" id="removeBroadcastForm" name="removeBroadcastForm">
+			<br>
+			<select name="broadcastSelect">
+				<% for (Broadcast b : broadcasts) { %>
+				<option value="<%= b.getId() %>"><%=b.getId() +" "+ b.getMovieId() + " " + b.getProjectionTime()+" "%></option>
+				<% } %>
+			</select>
+			<br>
 			<input type="submit" value="removeBroadcast">
 		</form> 
 	

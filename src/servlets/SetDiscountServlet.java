@@ -25,7 +25,7 @@ public class SetDiscountServlet extends HttpServlet {
 		try {
 			
 			int broadcastId = Integer.parseInt(request.getParameter("broadcastSelect")); 
-			int percentForDiscount = Integer.parseInt(request.getParameter("percent"));
+			double percentForDiscount = Double.parseDouble(request.getParameter("percent"));
 			
 			Broadcast broadcastForDiscount = BroadcastDao.getInstance().getBroadcastById(broadcastId);
 			AdminManager.getInstance().setPromoPercent((User) request.getSession().getAttribute("admin") , broadcastForDiscount, percentForDiscount);
