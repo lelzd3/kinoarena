@@ -86,7 +86,7 @@ public class BroadcastDao implements IBroadcastDao {
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		double price = rs.getDouble("price");
-		price = price - (price * promoPercent);
+		price = price - (price * promoPercent * 0.01);
 
 		ps = connection.prepareStatement("UPDATE broadcasts SET price = ? WHERE id = ?");
 		ps.setDouble(1, price);
