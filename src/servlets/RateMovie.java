@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,27 +8,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.AdminManager;
-import dao.CinemaDao;
+import controller.UserManager;
 import dao.MovieDao;
-import pojos.Cinema;
+import dao.UserDao;
 import pojos.Movie;
 import pojos.User;
 
+@WebServlet("/rateMovie")
+public class RateMovie extends HttpServlet {
 
-@WebServlet("/removeCinema")
-public class RemoveCinema extends HttpServlet {
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		try {
-			User admin = (User) request.getSession().getAttribute("admin");
+			User user = (User) request.getSession().getAttribute("user");
+			int movieIdToBeRated = Integer.parseInt(request.getParameter("movieIdToBeRated"));
+			int newRating = Integer.parseInt(request.getParameter("ratingSelect"));
 			
-			int cinemaId = Integer.parseInt(request.getParameter("cinemaSelect"));
-			Cinema cinemaToDelete = CinemaDao.getInstance().getCinemaById(cinemaId);
-
-			AdminManager.getInstance().removeCinema(cinemaToDelete,admin);
-			
-			request.getRequestDispatcher("adminMain.jsp").forward(request, response);
-		} catch (Exception e) {
+			Movie movie = MovieDao.getInstance().getMovieById(movieIdToBeRated);
+			UserDao.getInstance().rateMovie(user, movie, newRating);
+			request.getRequestDispatcher("viewAllMovies.jsp").forward(request, response);
+		}catch (Exception e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}

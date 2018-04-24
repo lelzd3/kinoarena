@@ -10,6 +10,8 @@ import dao.UserDao;
 import database.DBManager;
 import exceptions.InvalidDataException;
 import exceptions.WrongCredentialsException;
+import pojos.Movie;
+import pojos.User;
 
 public class UserManager {
 	
@@ -130,5 +132,8 @@ public class UserManager {
 	    return true;
 	}
 
+	public void rateMovie(User u, Movie m,int rating) throws SQLException, InvalidDataException {
+		UserDao.getInstance().rateMovie(u, m, rating);
+	}
 
 }

@@ -29,7 +29,10 @@ public class LoginServlet extends HttpServlet {
 		//Sessions.validateSession(request, response);
 		
 		try {
-			
+			getServletConfig().getServletContext().setAttribute("broadcasts", BroadcastDao.getInstance().getAllBroadcasts());
+			getServletConfig().getServletContext().setAttribute("movies", MovieDao.getInstance().getAllMovies());
+			getServletConfig().getServletContext().setAttribute("halls", HallDao.getInstance().getAllHalls());
+			getServletConfig().getServletContext().setAttribute("cinemas", CinemaDao.getInstance().getAllCinemas());
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			
@@ -38,10 +41,7 @@ public class LoginServlet extends HttpServlet {
 			if(user.getIsAdmin()) {
 
 				request.getSession().setAttribute("admin", user);
-				getServletConfig().getServletContext().setAttribute("broadcasts", BroadcastDao.getInstance().getAllBroadcasts());
-				getServletConfig().getServletContext().setAttribute("movies", MovieDao.getInstance().getAllMovies());
-				getServletConfig().getServletContext().setAttribute("halls", HallDao.getInstance().getAllHalls());
-				getServletConfig().getServletContext().setAttribute("cinemas", CinemaDao.getInstance().getAllCinemas());
+			
 				//TODO USE USER MANAGER
 				getServletConfig().getServletContext().setAttribute("users", UserDao.getInstance().getAllUsers());
 				request.getRequestDispatcher("adminMain.jsp").forward(request, response);
