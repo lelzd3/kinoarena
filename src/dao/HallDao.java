@@ -32,7 +32,7 @@ public class HallDao implements IHallDao{
 	@Override
 	public void addHall(Hall h) throws SQLException {
 		
-		PreparedStatement s = connection.prepareStatement("INSERT INTO halls (seats, cinema_id) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement s = connection.prepareStatement("INSERT INTO halls (seats, cinemas_id) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
 		s.setInt(1, h.getSeats());
 		s.setInt(2, h.getCinema_id());
 		s.executeUpdate();
@@ -40,7 +40,7 @@ public class HallDao implements IHallDao{
 		// set the ID for the instance of Hall h
 		ResultSet result = s.getGeneratedKeys();
 		result.next(); // we write next cuz it starts from -1
-		h.setId((int)result.getLong("id")); // or 1 instead of id
+		h.setId((int)result.getLong(1)); // or 1 instead of id
 		
 		s.close();
 		

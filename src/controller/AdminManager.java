@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import dao.BroadcastDao;
+import dao.CinemaDao;
+import dao.HallDao;
 import dao.MovieDao;
 import dao.UserDao;
 import database.DBManager;
@@ -12,6 +14,8 @@ import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.NotAnAdminException;
 import pojos.Broadcast;
+import pojos.Cinema;
+import pojos.Hall;
 import pojos.Movie;
 import pojos.User;
 
@@ -51,6 +55,21 @@ public class AdminManager {
 		}	
 	}
 
+	public void addNewHall(Hall h, User admin) throws SQLException, NotAnAdminException {
+		if(admin.getIsAdmin()){
+			HallDao.getInstance().addHall(h);
+		}else{
+			throw new NotAnAdminException();
+		}
+	}
+	
+	public void addNewCinema(Cinema c, User admin) throws SQLException, NotAnAdminException {
+		if(admin.getIsAdmin()){
+			CinemaDao.getInstance().addCinema(c);
+		}else{
+			throw new NotAnAdminException();
+		}
+	}
 
 
 	public void removeMovie(Movie m, User admin) throws SQLException, NotAnAdminException {

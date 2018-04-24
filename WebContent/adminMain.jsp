@@ -48,6 +48,21 @@ response.setHeader("Cache-Control", "no-cache");
 		</form>
 		<br>
 		
+		<form action="addMovie.jsp" method="get">
+			<button type="submit">Add Movie</button>
+		</form>
+		<br>
+		
+		<form action="addHall.jsp" method="get">
+			<button type="submit">Add Hall</button>
+		</form>
+		<br>
+		
+		<form action="addCinema.jsp" method="get">
+			<button type="submit">Add Cinema</button>
+		</form>
+		<br>
+		
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>
 		</form>

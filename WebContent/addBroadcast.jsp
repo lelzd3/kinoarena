@@ -13,6 +13,7 @@
 		<title>Add Broadcast page</title>
 		<%
 			//can also be User user = (User) session.getAttribute("user")
+			//no need for that now but left it here.
 			User admin = (User) request.getSession().getAttribute("admin");
 			//List<Broadcast> broadcasts = (List<Broadcast>) application.getAttribute("broadcasts");
 			ArrayList<Movie> movies = (ArrayList<Movie>) application.getAttribute("movies");
@@ -28,29 +29,32 @@
 	
 		<form action="addBroadcast" method="post" id="addBroadcastForm" name="addBroadcastForm">
 			<br>
+			Select Movie
 			<select name="movieSelect">
 				<% for( Movie movie : movies){ %>
 			 		 <option value="<%= movie.getId() %>"><%= movie.getTitle()  %></option>
 				<% } %>
 			</select>
 			<br>
+			Select Cinema
 			<select name="cinemaSelect">
 				<% for( Cinema cinema : cinemas){ %>
 			 		 <option value="<%= cinema.getId() %>"> <%= cinema.getName()  %></option>
 				<% } %>
 			</select>
 			<br>
+			Select Hall
 			<select name="hallSelect">
 				<% for( Hall hall : halls){ %>
 			 		 <option value="<%= hall.getId()  %>"><%= hall.getId()  %></option>
 				<% } %>
 			</select>
 			<br>
-			<input type="datetime-local" name="projection_time">
+			Date and Time <input type="datetime-local" name="projection_time" required>
 			<br>
-			<input type="number" name= "free_sits">
+			Free sits <input type="number" name= "free_sits" required>
 			<br>
-			<input type="number" name= "price">
+			Price <input type="number" name= "price" step="any" required>
 			<br>
 			<input type="submit" value="addBroadcast">
 		</form> 	

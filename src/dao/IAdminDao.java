@@ -7,6 +7,7 @@ import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.NotAnAdminException;
 import pojos.Broadcast;
+import pojos.Hall;
 import pojos.Movie;
 import pojos.User;
 
@@ -26,6 +27,8 @@ public interface IAdminDao {
 	
 	// we will use it to make discount on some day/days of the week
 	public void setPromoPercent(User admin, Broadcast b, double promoPercent) throws Exception;
+
+	void addNewHall(Hall h, User admin) throws Exception;
 
 	
 	

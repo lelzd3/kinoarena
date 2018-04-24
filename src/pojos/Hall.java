@@ -10,7 +10,7 @@ public class Hall {
 	private int seats;
 	private int cinema_id;
 	
-	Hall(int seats,int cinema_id) throws InvalidDataException{
+	public Hall(int seats,int cinema_id) throws InvalidDataException{
 		setSeats(seats);
 		setCinema_id(cinema_id);
 	}

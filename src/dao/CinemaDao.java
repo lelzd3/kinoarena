@@ -39,7 +39,7 @@ public class CinemaDao implements ICinemaDao{
 		// set the ID for the instance of Cinema c
 		ResultSet result = s.getGeneratedKeys();
 		result.next(); // we write next cuz it starts from -1
-		c.setId((int)result.getLong("id")); // or 1 instead of id
+		c.setId((int)result.getLong(1)); // or 1 instead of id
 		
 		s.close();
 		

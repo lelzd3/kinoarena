@@ -17,13 +17,14 @@
 		
 		<form action="setDiscount" method="post" id="setDiscountForm" name="setDiscountForm">
 			<br>
+			Select Broadcast
 			<select name="broadcastSelect">
 				<% for(Broadcast b : broadcasts){ %>
 			 		 <option value="<%= b.getId() %>"><%= b.getId() +" "+ b.getMovieId() + " " + b.getProjectionTime()+" " %></option>
 				<% } %>
 			</select>
 			<br>
-			<input type="number" name="percent" step="any">
+			Discount Percent <input type="number" name="percent" step="any" required>
 			<input type="submit" value="setDiscount">
 		<form>
 		

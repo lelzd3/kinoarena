@@ -10,7 +10,7 @@ public class Cinema {
 	private String name;
 	private String address;
 	
-	Cinema(String name,String address) throws InvalidDataException{
+	public Cinema(String name,String address) throws InvalidDataException{
 		setName(name);
 		setAddress(address);
 	}

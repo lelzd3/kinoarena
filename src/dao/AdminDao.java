@@ -8,6 +8,7 @@ import exceptions.IlligalAdminActionException;
 import exceptions.InvalidDataException;
 import exceptions.NotAnAdminException;
 import pojos.Broadcast;
+import pojos.Hall;
 import pojos.Movie;
 import pojos.User;
 
@@ -33,6 +34,15 @@ public class AdminDao implements IAdminDao {
 	public void addNewMovie(Movie m, User admin) throws SQLException, NotAnAdminException {
 		if(admin.getIsAdmin()){
 			MovieDao.getInstance().addMovie(m);
+		}else{
+			throw new NotAnAdminException();
+		}
+	}
+	
+	@Override
+	public void addNewHall(Hall h, User admin) throws SQLException, NotAnAdminException {
+		if(admin.getIsAdmin()){
+			HallDao.getInstance().addHall(h);
 		}else{
 			throw new NotAnAdminException();
 		}
@@ -101,7 +111,5 @@ public class AdminDao implements IAdminDao {
 		}
 		
 	}
-
-	
 
 }

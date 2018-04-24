@@ -31,7 +31,7 @@ public class AddBroadcast extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//TODO i put it here so we can see it, maybe remove the sits input in AddBroadcast.jsp
 		try {
 			
 			int movie_id = Integer.parseInt(request.getParameter("movieSelect"));
