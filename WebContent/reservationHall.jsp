@@ -36,9 +36,9 @@
 				}
 				div.seatCharts-cell {
 				
-					height: 16px;
-					width: 16px;
-					margin: 3px;
+					height: 25px;
+					width: 25px;
+					margin: 8px;
 					float: left;
 					text-align: center;
 					outline: none;
@@ -130,119 +130,81 @@
 		<script src="jQuery-Seat-Charts/jquery.seat-charts.js"></script>
 		
 		<script>
-			var firstSeatLabel = 1;
-		
-			$(document).ready(function() {
-				var $cart = $('#selected-seats'),
-					$counter = $('#counter'),
-					$total = $('#total'),
-					sc = $('#seat-map').seatCharts({
-					map: [
-						'ff_ff',
-						'ff_ff',
-						'ee_ee',
-						'ee_ee',
-						'ee___',
-						'ee_ee',
-						'ee_ee',
-						'ee_ee',
-						'eeeee',
-					],
-					seats: {
-						f: {
-							price   : 100,
-							classes : 'first-class', //your custom CSS class
-							category: 'First Class'
-						},
-						e: {
-							price   : 40,
-							classes : 'economy-class', //your custom CSS class
-							category: 'Economy Class'
-						}					
-					
-					},
-					naming : {
-						top : false,
-						getLabel : function (character, row, column) {
-							return firstSeatLabel++;
-						},
-					},
-					legend : {
-						node : $('#legend'),
-					    items : [
-							[ 'f', 'available',   'First Class' ],
-							[ 'e', 'available',   'Economy Class'],
-							[ 'f', 'unavailable', 'Already Booked']
-					    ]					
-					},
-					click: function () {
-						if (this.status() == 'available') {
-							//let's create a new <li> which we'll add to the cart items
-							$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#" class="cancel-cart-item">[cancel]</a></li>')
-								.attr('id', 'cart-item-'+this.settings.id)
-								.data('seatId', this.settings.id)
-								.appendTo($cart);
-							
-							/*
-							 * Lets update the counter and total
-							 *
-							 * .find function will not find the current seat, because it will change its stauts only after return
-							 * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
-							 */
-							$counter.text(sc.find('selected').length+1);
-							$total.text(recalculateTotal(sc)+this.data().price);
-							
-							return 'selected';
-						} else if (this.status() == 'selected') {
-							//update the counter
-							$counter.text(sc.find('selected').length-1);
-							//and total
-							$total.text(recalculateTotal(sc)-this.data().price);
-						
-							//remove the item from our cart
-							$('#cart-item-'+this.settings.id).remove();
-						
-							//seat has been vacated
-							return 'available';
-						} else if (this.status() == 'unavailable') {
-							//seat has been already booked
-							return 'unavailable';
-						} else {
-							return this.style();
-						}
+		var price = 10; //price
+		$(document).ready(function() {
+			var $cart = $('#selected-seats'), //Sitting Area
+			$counter = $('#counter'), //Votes
+			$total = $('#total'); //Total money
+			
+			var sc = $('#seat-map').seatCharts({
+				map: [  //Seating chart
+					'aaaaaaaa',
+		            'aaaaaaaa',
+		            'aaaaaaaa',
+					'aaaaaaaa',
+		            'aaaaaaaa',
+		            'aaaaaaaa',
+					'aaaaaaaa',
+		            'aaaaaaaa',
+		            'aaaaaaaa',
+		            'aaaaaaaa'
+				],
+				naming : {
+					top : false,
+					getLabel : function (character, row, column) {
+						return column;
 					}
-				});
+				},
+				legend : { //Definition legend
+					node : $('#legend'),
+					items : [
+						[ 'a', 'available',   'Available' ],
+						[ 'a', 'unavailable', 'Sold']
+					]					
+				},
+				click: function () { //Click event
+					if (this.status() == 'available') { //optional seat
+						$('<li>R'+(this.settings.row+1)+' S'+this.settings.label+'</li>')
+							.attr('id', 'cart-item-'+this.settings.id)
+							.data('seatId', this.settings.id)
+							.appendTo($cart);
 
-				//this will handle "[cancel]" link clicks
-				$('#selected-seats').on('click', '.cancel-cart-item', function () {
-					//let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-					sc.get($(this).parents('li:first').data('seatId')).click();
-				});
-
-				//let's pretend some seats have already been booked
-				sc.get(['1_2', '4_1', '7_1', '7_2']).status('unavailable');
-		
+						$counter.text(sc.find('selected').length+1);
+						$total.text(recalculateTotal(sc)+price);
+									
+						return 'selected';
+					} else if (this.status() == 'selected') { //Checked
+							//Update Number
+							$counter.text(sc.find('selected').length-1);
+							//update totalnum
+							$total.text(recalculateTotal(sc)-price);
+								
+							//Delete reservation
+							$('#cart-item-'+this.settings.id).remove();
+							//optional
+							return 'available';
+					} else if (this.status() == 'unavailable') { //sold
+						return 'unavailable';
+					} else {
+						return this.style();
+					}
+				}
+			});
+			//sold seat
+			sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
+				
 		});
-
+		//sum total money
 		function recalculateTotal(sc) {
 			var total = 0;
-		
-			//basically find every selected seat and sum its price
 			sc.find('selected').each(function () {
-				total += this.data().price;
+				total += price;
 			});
-			
+					
 			return total;
 		}
 		
-		/*!
-		 * jQuery-Seat-Charts v1.1.1
-		 * https://github.com/mateuszmarkowski/jQuery-Seat-Charts
-		 *
-		 * Copyright 2013, 2014 Mateusz Markowski
-		 * Released under the MIT license
-		 */
-
+		
 		(function($) {
 				
 			//'use strict';	
