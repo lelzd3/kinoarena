@@ -28,26 +28,6 @@ response.setHeader("Cache-Control", "no-cache");
 		<h2 align="center">Session id is <%= s %></h2>
 		<br>
 
-		<form action="addBroadcast.jsp" method="get">
-			<button type="submit">Add Broadcast</button>
-		</form>
-		<br>
-		
-		<form action="removeBroadcast.jsp" method="get">
-			<button type="submit">Remove Broadcast</button>
-		</form>
-		<br>
-		
-		<form action="makeAdmin.jsp" method="get">
-			<button type="submit">Make someone an admin</button>
-		</form>
-		<br>
-		
-		<form action="setDiscount.jsp" method="get">
-			<button type="submit">Make discount on a broadcast </button>
-		</form>
-		<br>
-		
 		<form action="addMovie.jsp" method="get">
 			<button type="submit">Add Movie</button>
 		</form>
@@ -62,6 +42,42 @@ response.setHeader("Cache-Control", "no-cache");
 			<button type="submit">Add Cinema</button>
 		</form>
 		<br>
+		
+		<form action="addBroadcast.jsp" method="get">
+			<button type="submit">Add Broadcast</button>
+		</form>
+		<br>
+		
+		<form action="removeBroadcast.jsp" method="get">
+			<button type="submit">Remove Broadcast</button>
+		</form>
+		<br>
+		
+		<form action="removeMovie.jsp" method="get">
+			<button type="submit">Remove Movie</button>
+		</form>
+		<br>
+		
+		<form action="removeCinema.jsp" method="get">
+			<button type="submit">Remove Cinema</button>
+		</form>
+		<br>
+		
+		<form action="removeHall.jsp" method="get">
+			<button type="submit">Remove Hall</button>
+		</form>
+		<br>
+		
+		<form action="makeAdmin.jsp" method="get">
+			<button type="submit">Make someone an admin</button>
+		</form>
+		<br>
+		
+		<form action="setDiscount.jsp" method="get">
+			<button type="submit">Make discount on a broadcast </button>
+		</form>
+		<br>
+		
 		
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>

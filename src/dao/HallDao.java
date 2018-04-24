@@ -47,7 +47,7 @@ public class HallDao implements IHallDao{
 	}
 	
 	@Override
-	public void deletehall(Hall h) throws SQLException {
+	public void deleteHall(Hall h) throws SQLException {
 		PreparedStatement s = connection.prepareStatement("DELETE FROM halls WHERE id = ?");
 		s.setInt(1, h.getId());
 		s.executeUpdate();
@@ -85,5 +85,20 @@ public class HallDao implements IHallDao{
 			halls.add(h);
 		}
 		return halls;
+	}
+	
+	@Override
+	public Hall getHallById(int id) throws SQLException, InvalidDataException  {
+		PreparedStatement s = connection.prepareStatement("SELECT id,seats,cinemas_id FROM halls WHERE id = ?");
+		s.setInt(1, id);
+		ResultSet result = s.executeQuery();
+		result.next();
+		Hall hall = new Hall(
+						result.getInt("id"),
+						result.getInt("seats"),
+						result.getInt("cinemas_id")
+						 );
+		
+		return hall;
 	}
 }

@@ -18,7 +18,7 @@
 	
 		
 		
-		<form action="removeBroadcastServlet" method="post" id="removeBroadcastForm" name="removeBroadcastForm">
+		<form action="removeBroadcast" method="post" id="removeBroadcastForm" name="removeBroadcastForm">
 			<br>
 			<select name="broadcastSelect">
 				<% for (Broadcast b : broadcasts) { %>

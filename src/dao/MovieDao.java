@@ -75,4 +75,20 @@ public class MovieDao implements IMovieDao{
 		return movies;
 	}
 	
+	@Override
+	public Movie getMovieById(int id)  throws SQLException, InvalidDataException {
+		PreparedStatement s = connection.prepareStatement("SELECT id,title,description,rating,duration,file_location FROM movies WHERE id=?");
+		s.setInt(1, id);
+		ResultSet result = s.executeQuery();
+		result.next();
+		Movie movie = new Movie(
+					result.getInt("id"),
+					result.getString("title"),
+					result.getString("description"),
+					result.getDouble("rating"),
+					result.getDouble("duration"),
+					result.getString("file_location")
+					);
+		return movie;
+	}
 }

@@ -88,7 +88,22 @@ public class AdminManager {
 			throw new NotAnAdminException();
 		}
 	}
+	
+	public void removeCinema(Cinema c, User admin) throws SQLException, NotAnAdminException, InvalidDataException {	
+		if(admin.getIsAdmin()){
+			CinemaDao.getInstance().deleteCinema(c);
+		}else{
+			throw new NotAnAdminException();
+		}
+	}
 
+	public void removeHall(Hall h, User admin) throws SQLException, NotAnAdminException, InvalidDataException {	
+		if(admin.getIsAdmin()){
+			HallDao.getInstance().deleteHall(h);
+		}else{
+			throw new NotAnAdminException();
+		}
+	}
 
 	public void changeUserIsAdminStatus(User admin, String email) throws NotAnAdminException, SQLException, InvalidDataException {
 		if(admin.getIsAdmin()){

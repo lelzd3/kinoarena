@@ -69,4 +69,17 @@ public class CinemaDao implements ICinemaDao{
 		return cinemas;
 	}
 	
+	@Override
+	public Cinema getCinemaById(int id)  throws SQLException, InvalidDataException {
+		PreparedStatement s = connection.prepareStatement("SELECT id,name,address FROM cinemas WHERE id=?");
+		s.setInt(1, id);
+		ResultSet result = s.executeQuery();
+		result.next();
+			Cinema cinema = new Cinema(
+							  result.getInt("id"),
+							  result.getString("name"),
+							  result.getString("address")
+							  );
+		return cinema;
+	}
 }
