@@ -41,7 +41,7 @@
 				<div class="clear"></div>
 				<ul id="selected-seats" class="scrollbar scrollbar1"></ul>
 			
-				<form action="successfulReservation.jsp" method="post">
+				<form action="reserve" method="post">
 					<input id="hiddenSeats" name="hiddenSeats" type="hidden" value="1">
 					<input id="submitButton" type="submit" class="checkout-button" value="Book now">
 				</form>		
