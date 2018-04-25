@@ -116,22 +116,21 @@ public class UserDao implements IUserDao{
 			ps.setInt(1, u.getId());
 			ResultSet r = ps.executeQuery();
 			if(r.next()) {
-				oldRatingGiven = r.getInt(1);
+				//if hasNext->user has rated before -> update old entry of user rating in users_rated_movies
+				ps = connection.prepareStatement("UPDATE users_rated_movies SET rating = ? WHERE users_id = ?");
+				ps.setInt(1, rating);
+				ps.setInt(2,u.getId());
+				ps.executeUpdate();
 			}
-			
-			//if oldRatingGiven is > 0 -> delete old entry of user rating in users_rated_movies
-			if(oldRatingGiven > 0) {
-				ps = connection.prepareStatement("DELETE FROM users_rated_movies WHERE users_id = ?");
-				ps.setInt(1,u.getId());
+			else {
+				//put the new entry of user rating in users_rated_movies
+				ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id,movies_id,rating) VALUES(?,?,?)");
+				ps.setInt(1, u.getId());
+				ps.setInt(2, m.getId());
+				ps.setInt(3,rating);
 				ps.executeUpdate();
 			}
 			
-			//put the new entry of user rating in users_rated_movies
-			ps = connection.prepareStatement("INSERT INTO users_rated_movies (users_id,movies_id,rating) VALUES(?,?,?)");
-			ps.setInt(1, u.getId());
-			ps.setInt(2, m.getId());
-			ps.setInt(3,rating);
-			ps.executeUpdate();
 			
 			//get AVG rating for movies_id = m.getId()
 			ps = connection.prepareStatement("SELECT AVG(rating) FROM users_rated_movies WHERE movies_id = ?");

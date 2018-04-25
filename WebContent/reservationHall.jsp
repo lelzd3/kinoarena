@@ -41,14 +41,17 @@
 				<div class="clear"></div>
 				<ul id="selected-seats" class="scrollbar scrollbar1"></ul>
 			
-						
-				<button class="checkout-button">Book Now</button>	
+				<form action="successfulReservation.jsp" method="post">
+					<input id="hiddenSeats" name="hiddenSeats" type="hidden" value="1">
+					<input id="submitButton" type="submit" class="checkout-button" value="Book now">
+				</form>		
 				<div id="legend"></div>
 			</div>
 			<div style="clear:both"></div>
 	    </div>
 
 			<script type="text/javascript">
+			
 				var price = 10; //price
 				$(document).ready(function() {
 					var $cart = $('#selected-seats'), //Sitting Area
@@ -57,16 +60,16 @@
 					
 					var sc = $('#seat-map').seatCharts({
 						map: [  //Seating chart
-							'aaaaaaaaaa',
-							'aaaaaaaaaa',
-							'__________',
-							'aaaaaaaa__',
-							'aaaaaaaaaa',
-							'aaaaaaaaaa',
-							'aaaaaaaaaa',
-							'aaaaaaaaaa',
-							'aaaaaaaaaa',
-							'__aaaaaa__'
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa',
+							'aaaaaaaa'
 						],
 						naming : {
 							top : false,
@@ -84,11 +87,11 @@
 						},
 						click: function () { //Click event
 							if (this.status() == 'available') { //optional seat
-								$('<li>Row'+(this.settings.row+1)+' Seat'+this.settings.label+'</li>')
+								$('<li value="1">Row'+(this.settings.row+1)+' Seat'+this.settings.label+'</li>')
 									.attr('id', 'cart-item-'+this.settings.id)
 									.data('seatId', this.settings.id)
 									.appendTo($cart);
-
+								console.log('<li>Row'+(this.settings.row+1)+' Seat'+this.settings.label+'</li>');
 								$counter.text(sc.find('selected').length+1);
 								$total.text(recalculateTotal(sc)+price);
 											
@@ -110,8 +113,32 @@
 							}
 						}
 					});
-					//sold seat
-					sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
+					document.getElementById("submitButton").onclick= function(){
+						var arrayOfSeats = [];
+						$("li").each(function(index){
+							if(this.getAttribute("value") == "1"){
+								arrayOfSeats.push($(this).text());
+								console.log($(this).text());
+							}
+						});
+						document.getElementById("hiddenSeats").value = arrayOfSeats.join();
+						console.log(document.getElementById("hiddenSeats").value);
+					}
+					//sold seats
+					$(document).ready(function (){
+						var xmlHttp = new XMLHttpRequest();
+						xmlHttp.onreadystatechange = function(){
+							if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+
+								var x = xmlHttp.responseText;
+								sc.get(x.split(", ")).status('unavailable');
+							}
+						}
+						xmlHttp.open("GET","reserve");
+						xmlHttp.send(null);
+					});
+					//sc.get(['1_3', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
+				//	sc.get().status('unavailable');
 						
 				});
 				//sum total money
@@ -123,6 +150,9 @@
 							
 					return total;
 				}
+				
+				
+				
 			</script>
 	</div>
 	

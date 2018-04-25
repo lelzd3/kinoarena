@@ -96,22 +96,75 @@ public class ReservationDao implements IReservationDao {
 
 	@Override
 	public Collection<Reservation> getAllReservationsForABroadcast(Broadcast b) throws SQLException, InvalidDataException {
-		PreparedStatement s = connection.prepareStatement("SELECT id,users_id,broadcast_id,seats_number,time FROM reservations WHERE broadcast_id = ?");
+		PreparedStatement s = connection.prepareStatement("SELECT id,users_id,broadcasts_id,seats_number,time FROM reservations WHERE broadcasts_id = ?");
 		s.setInt(1, b.getId());
+		System.out.println(b.getId());
 		ArrayList<Reservation> reservations = new ArrayList<>();
+		System.out.println(123);
 		ResultSet result = s.executeQuery();
+		System.out.println(124);
 		while(result.next()) {
+			System.out.println(125);
 			LocalDateTime time = result.getTimestamp("time").toLocalDateTime();
+			System.out.println(time);
+			System.out.println(126);
 			Reservation r = new Reservation(
 					result.getInt("id"),
-					result.getInt("user_id"),
-					result.getInt("broadcast_id"),
+					result.getInt("users_id"),
+					result.getInt("broadcasts_id"),
 					result.getInt("seats_number"),
 					time
 					);
+			System.out.println(127);
 			reservations.add(r);
+			System.out.println(128);
 		}
+
+		System.out.println(129);
 		return reservations;
+	}
+
+	//TODO put in interface
+	public ArrayList<String> getAllOccupiedSeatsForABroadcast(Broadcast broadcast) throws SQLException, InvalidDataException {
+
+		ArrayList<String> allSeats = new ArrayList<String>();
+		PreparedStatement ps = null;
+		try {
+			connection.setAutoCommit(false);
+			System.out.println("tuka sum nad tfa");
+
+			ArrayList<Reservation> reservations = (ArrayList<Reservation>) ReservationDao.getInstance().getAllReservationsForABroadcast(broadcast);
+			System.out.println("tuka sum pod tfa");
+			
+			//TODO optimise with 1 query , dynamically apend ? to string
+			for(Reservation reservation : reservations) {
+				//do a select query WHERE reservation_id = reservation.getId
+				ps = connection.prepareStatement("SELECT row_number,column_number FROM reservations_seats WHERE ticket_reservations_id = ?");
+				ps.setInt(1, reservation.getId());
+				ResultSet result = ps.executeQuery();
+				//make a resultset and while through him and append to allSeats
+				while(result.next()) {
+					
+					allSeats.add(result.getInt("row_number")+"_"+result.getInt("column_number"));
+					
+				}
+				
+			}
+			
+			connection.commit();
+			
+		}
+		catch(SQLException e){
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			ps.close();
+			connection.setAutoCommit(true);
+			
+		}
+		return allSeats;
+
 	}
 	
 }

@@ -49,7 +49,7 @@ public class RegisterServlet extends HttpServlet {
 			UserDao.getInstance().addUser(user);
 			
 			request.getSession().setAttribute("user", user);
-			request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 
 		}
 		catch (WrongCredentialsException e) {

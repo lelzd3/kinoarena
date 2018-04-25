@@ -119,8 +119,13 @@ public class BroadcastDao implements IBroadcastDao {
 		try {
 			if (result.next()) {
 				LocalDateTime time = result.getTimestamp("projection_time").toLocalDateTime();
-				Broadcast b = new Broadcast(result.getInt("id"), result.getInt("cinemas_id"),
-						result.getInt("movies_id"), result.getInt("halls_id"), time, result.getDouble("price"));
+				Broadcast b = new Broadcast(
+						result.getInt("id"),
+						result.getInt("cinemas_id"),
+						result.getInt("movies_id"),
+						result.getInt("halls_id"),
+						time,
+						result.getDouble("price"));
 				return b;
 			}
 		} catch (Exception e) {

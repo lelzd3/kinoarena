@@ -7,8 +7,8 @@ import exceptions.InvalidDataException;
 
 
 public class Reservation {
-	
-	private static final int MAX_SEATS_FOR_A_RESERVATIONS = 8;
+	//TODO change later
+	private static final int MAX_SEATS_FOR_A_RESERVATIONS = 80000;
 	private int id;
 	private int user_id;
 	private int broadcast_id;
