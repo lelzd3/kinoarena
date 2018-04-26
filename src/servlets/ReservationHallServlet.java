@@ -37,8 +37,6 @@ public class ReservationHallServlet extends HttpServlet {
 			//forward to jsp 
 			//request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getStackTrace());
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}

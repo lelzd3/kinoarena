@@ -118,7 +118,6 @@
 						$("li").each(function(index){
 							if(this.getAttribute("value") == "1"){
 								arrayOfSeats.push($(this).text());
-								console.log($(this).text());
 							}
 						});
 						document.getElementById("hiddenSeats").value = arrayOfSeats.join();

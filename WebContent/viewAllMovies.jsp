@@ -1,3 +1,5 @@
+<%@page import="dao.BroadcastDao"%>
+<%@page import="pojos.Broadcast"%>
 <%@page import="dao.MovieDao"%>
 <%@page import="pojos.Movie"%>
 <%@page import="java.util.ArrayList"%>
@@ -24,6 +26,7 @@
 		//
 		//	ArrayList<Movie> movies = (ArrayList<Movie>) application.getAttribute("movies");
 			ArrayList<Movie> movies = (ArrayList<Movie>) MovieDao.getInstance().getAllMovies();
+			
 		%>
 	</head>
 	
@@ -57,6 +60,21 @@
 					</select>
 					<input type="submit" value="rateMovie">
 				</form>
+				<br>
+				
+				<br>
+				<form>
+					<select name="broadcastSelect">
+						<% //TODO make it to show Cinema Name and Movie Name
+						//and make it to redirect to servlet
+						for(Broadcast broadcast : (ArrayList<Broadcast>)BroadcastDao.getInstance().getAllBroadcastsForAMovie(movie)) { %>
+							<option value="<%= broadcast.getId() %>"><%="Cinema_id: "+  broadcast.getCinemaId() + ", Broadast_id: " + broadcast.getId() + ", Movie_id: "+ broadcast.getMovieId() %></option>
+						<%} %>
+					</select>
+					<input type="submit" value="">
+				</form>
+				<br>
+				
 			</div>
 		<br><br>
 		<% } %>

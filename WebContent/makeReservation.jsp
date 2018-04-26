@@ -15,7 +15,7 @@
 	
 	<body>
 	
-		<form action="reserve" method="post">
+		<form action="reserve" method="get">
 			<br>
 			Select Broadcast
 			<select name="broadcastSelect">
