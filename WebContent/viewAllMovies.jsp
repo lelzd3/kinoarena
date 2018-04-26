@@ -63,7 +63,7 @@
 				<br>
 				
 				<br>
-				<form>
+				<form action="reserveInterim" method="post">
 					<select name="broadcastSelect">
 						<% //TODO make it to show Cinema Name and Movie Name
 						//and make it to redirect to servlet
@@ -71,7 +71,7 @@
 							<option value="<%= broadcast.getId() %>"><%="Cinema_id: "+  broadcast.getCinemaId() + ", Broadast_id: " + broadcast.getId() + ", Movie_id: "+ broadcast.getMovieId() %></option>
 						<%} %>
 					</select>
-					<input type="submit" value="">
+					<input type="submit" value="Choose Broadcast to book seats for">
 				</form>
 				<br>
 				

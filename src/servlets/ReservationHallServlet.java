@@ -25,7 +25,9 @@ public class ReservationHallServlet extends HttpServlet {
 		
 		try {
 			
-			int broadcastId = 9;
+			//int broadcastId = Integer.parseInt(request.getParameter("broadcastSelect"));
+			//int broadcastId = 8;
+			int broadcastId = (Integer)request.getSession().getAttribute("session_broadcast_id");
 			Broadcast broadcast = BroadcastDao.getInstance().getBroadcastById(broadcastId);
 			//append them to request
 			ArrayList<String> allSeatsForBroadcast = ReservationDao.getInstance().getAllOccupiedSeatsForABroadcast(broadcast);
@@ -43,20 +45,21 @@ public class ReservationHallServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String s = (String) request.getParameter("hiddenSeats");
-		String[] allSeats = s.split(",");
-		for(int i = 0 ; i < allSeats.length ; i++) {
-			String[] rowAndCow = allSeats[i].split(" ");
-			int row = Integer.parseInt(rowAndCow[0].replaceAll("\\D+",""));
-			int col = Integer.parseInt(rowAndCow[1].replaceAll("\\D+",""));
-			try {
-				ReservationDao.getInstance().bookSelectedSeats(row,col,1);
+		try {
+			String s = (String) request.getParameter("hiddenSeats");
+			String[] allSeats = s.split(",");
+			for(int i = 0 ; i < allSeats.length ; i++) {
+				String[] rowAndCow = allSeats[i].split(" ");
+				int row = Integer.parseInt(rowAndCow[0].replaceAll("\\D+",""));
+				int col = Integer.parseInt(rowAndCow[1].replaceAll("\\D+",""));
+				
+				ReservationDao.getInstance().bookSelectedSeats(row,col,4);
 				System.out.println("Succesfull booking");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
 	}
 }

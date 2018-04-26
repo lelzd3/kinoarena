@@ -14,6 +14,10 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/jquery.seat-charts.js"></script>
+
+<%
+//	request.getSession().setAttribute("broadcast_id", request.getAttribute("broadcastSelect"));
+%>
 </head>
 <body>
 <div class="content">
