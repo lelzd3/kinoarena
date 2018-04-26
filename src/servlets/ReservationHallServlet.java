@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -24,14 +25,10 @@ public class ReservationHallServlet extends HttpServlet {
 		
 		try {
 			
-			//get all reserved seats
-//			int broadcastId = Integer.parseInt(request.getParameter("broadcastSelect"));
-			int broadcastId = 8;
+			int broadcastId = 9;
 			Broadcast broadcast = BroadcastDao.getInstance().getBroadcastById(broadcastId);
 			//append them to request
 			ArrayList<String> allSeatsForBroadcast = ReservationDao.getInstance().getAllOccupiedSeatsForABroadcast(broadcast);
-			System.out.println(1);
-			System.out.println(allSeatsForBroadcast.toString());
 			response.getWriter().write(allSeatsForBroadcast.toString().substring(1, allSeatsForBroadcast.toString().length()-1));
 			//request.setAttribute("reserved_seats", allSeatsForBroadcast.toString());
 			//forward to jsp 
@@ -43,4 +40,23 @@ public class ReservationHallServlet extends HttpServlet {
 
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String s = (String) request.getParameter("hiddenSeats");
+		String[] allSeats = s.split(",");
+		for(int i = 0 ; i < allSeats.length ; i++) {
+			String[] rowAndCow = allSeats[i].split(" ");
+			int row = Integer.parseInt(rowAndCow[0].replaceAll("\\D+",""));
+			int col = Integer.parseInt(rowAndCow[1].replaceAll("\\D+",""));
+			try {
+				ReservationDao.getInstance().bookSelectedSeats(row,col,1);
+				System.out.println("Succesfull booking");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
+	}
 }
