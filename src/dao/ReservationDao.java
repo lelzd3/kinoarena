@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,17 +40,21 @@ public class ReservationDao implements IReservationDao {
 		try {
 			connection.setAutoCommit(false);
 			s = connection.prepareStatement(
-					"INSERT INTO reservations (users_id,broadcast_id,seats_number,time) VALUES (?,?,?,?) ");
+					"INSERT INTO reservations (users_id,broadcasts_id,seats_number,time) VALUES (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			s.setInt(1, r.getUser_id());
 			s.setInt(2, r.getBroadcast_id());
 			s.setInt(3, r.getAllSeatsReserved().size());
-			Date date = Date.valueOf(r.getTimeReservationIsMade().toLocalDate());
-			s.setDate(4, date);
+			Timestamp time = Timestamp.valueOf(r.getTimeReservationIsMade());
+			s.setTimestamp(4, time);
 			s.executeUpdate();
+			
+			ResultSet result = s.getGeneratedKeys();
+			result.next();
+			r.setId((int)result.getLong(1));
 
 			for (Seat seat : seats) {
 				s = connection.prepareStatement(
-						"INSERT INTO reservations_seats (ticket_reservations,row_number,column_number) VALUES (?,?,?)");
+						"INSERT INTO reservations_seats (ticket_reservations_id,row_number,column_number) VALUES (?,?,?)");
 				s.setInt(1, r.getId());
 				s.setInt(2, seat.getRow());
 				s.setInt(3, seat.getColumn());

@@ -26,10 +26,6 @@ response.setHeader("Cache-Control", "no-cache");
 			<input type="submit" value="Movies"><br>
 		</form>
 		
-		<form action="makeReservation.jsp" method="get">
-			<input type="submit" value="Make Reservation"><br>
-		</form>
-		
 		<br>
 		<form action="logout" method="get">
 			<input type="submit" value="Logout"><br>
