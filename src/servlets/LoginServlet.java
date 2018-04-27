@@ -43,6 +43,7 @@ public class LoginServlet extends HttpServlet {
 				request.getSession().setAttribute("admin", user);
 			
 				//TODO USE USER MANAGER
+				
 				getServletConfig().getServletContext().setAttribute("users", UserDao.getInstance().getAllUsers());
 				request.getRequestDispatcher("adminMain.jsp").forward(request, response);
 				

@@ -1,5 +1,13 @@
 
 <!DOCTYPE html>
+<%@page import="dao.MovieDao"%>
+<%@page import="pojos.Movie"%>
+<%@page import="dao.HallDao"%>
+<%@page import="pojos.Hall"%>
+<%@page import="dao.CinemaDao"%>
+<%@page import="pojos.Cinema"%>
+<%@page import="dao.BroadcastDao"%>
+<%@page import="pojos.Broadcast"%>
 <html>
 <head>
 <title>Movie Ticket Booking Widget Flat Responsive Widget Template :: w3layouts</title>
@@ -14,12 +22,19 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/jquery.seat-charts.js"></script>
+
+<%
+	int broadcastId = (Integer)request.getSession().getAttribute("session_broadcast_id");
+	Broadcast broadcast = BroadcastDao.getInstance().getBroadcastById(broadcastId);
+	Cinema cinema = CinemaDao.getInstance().getCinemaById(broadcast.getCinemaId());
+	Movie movie = MovieDao.getInstance().getMovieById(broadcast.getMovieId());
+%>
 </head>
 <body>
 <div class="content">
-	<h1>Movie Ticket Booking Widget</h1>
+	<h1>Reservation Hall</h1>
 	<div class="main">
-		<h2>Multiplex Theatre Showing Screen 1</h2>
+		<h2><%=cinema.getName()+" , hall: "+broadcast.getHallId() %></h2>
 		<div class="demo">
 			<div id="seat-map">
 				<div class="front">SCREEN</div>					
@@ -33,8 +48,8 @@
 					<li>Seats :</li>
 				</ul>
 				<ul class="book-right">
-					<li>: Gingerclown</li>
-					<li>: April 3, 21:00</li>
+					<li>: <%=movie.getTitle() %></li>
+					<li>: <%=broadcast.getProjectionTime() %></li>
 					<li>: <span id="counter">0</span></li>
 					<li>: <b><i>$</i><span id="total">0</span></b></li>
 				</ul>
@@ -52,7 +67,8 @@
 
 			<script type="text/javascript">
 			
-				var price = 10; //price
+				var price = parseFloat(<%=broadcast.getPrice()%>);
+				//var price = 10;
 				$(document).ready(function() {
 					var $cart = $('#selected-seats'), //Sitting Area
 					$counter = $('#counter'), //Votes
@@ -118,7 +134,6 @@
 						$("li").each(function(index){
 							if(this.getAttribute("value") == "1"){
 								arrayOfSeats.push($(this).text());
-								console.log($(this).text());
 							}
 						});
 						document.getElementById("hiddenSeats").value = arrayOfSeats.join();

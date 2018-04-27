@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import controller.AdminManager;
 import dao.BroadcastDao;
 import dao.ReservationDao;
+import exceptions.InvalidDataException;
 import pojos.Broadcast;
 import pojos.Reservation;
+import pojos.Seat;
 import pojos.User;
 
 
@@ -25,7 +27,9 @@ public class ReservationHallServlet extends HttpServlet {
 		
 		try {
 			
-			int broadcastId = 9;
+			//int broadcastId = Integer.parseInt(request.getParameter("broadcastSelect"));
+			//int broadcastId = 8;
+			int broadcastId = (Integer)request.getSession().getAttribute("session_broadcast_id");
 			Broadcast broadcast = BroadcastDao.getInstance().getBroadcastById(broadcastId);
 //			System.out.println("Stignah tyk");
 			//append them to request
@@ -35,8 +39,6 @@ public class ReservationHallServlet extends HttpServlet {
 			//forward to jsp 
 			//request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getStackTrace());
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
@@ -46,20 +48,39 @@ public class ReservationHallServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String s = (String) request.getParameter("hiddenSeats");
-		String[] allSeats = s.split(",");
-		for(int i = 0 ; i < allSeats.length ; i++) {
-			String[] rowAndCow = allSeats[i].split(" ");
-			int row = Integer.parseInt(rowAndCow[0].replaceAll("\\D+",""));
-			int col = Integer.parseInt(rowAndCow[1].replaceAll("\\D+",""));
-			try {
-				ReservationDao.getInstance().bookSelectedSeats(row,col,1);
-				System.out.println("Succesfull booking");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			User user = (User) request.getSession().getAttribute("user");
+			int broadcast_id = (Integer)request.getSession().getAttribute("session_broadcast_id");
+			request.getSession().setAttribute("session_broadcast_id", broadcast_id);
+			
+			String s = (String) request.getParameter("hiddenSeats");
+			if(s == "") {
+				//try with isEmpty()
+
+				request.getRequestDispatcher("viewAllMovies.jsp").forward(request, response);
+				return;
 			}
+			String[] allSeats = s.split(",");
+			ArrayList<Seat> selectedSeats = new ArrayList<Seat>();
+			
+			for(int i = 0 ; i < allSeats.length ; i++) {
+				String[] rowAndCow = allSeats[i].split(" ");
+				int row = Integer.parseInt(rowAndCow[0].replaceAll("\\D+",""));
+				int col = Integer.parseInt(rowAndCow[1].replaceAll("\\D+",""));
+				
+				Seat newSeat = new Seat(row, col);
+				selectedSeats.add(newSeat);
+			}
+			
+			Reservation reservation = new Reservation(user.getId(), broadcast_id, selectedSeats);
+			ReservationDao.getInstance().addReservation(reservation, selectedSeats);
+			request.getRequestDispatcher("viewAllMovies.jsp").forward(request, response);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (InvalidDataException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher("reservationHall.jsp").forward(request, response);
 	}
 }
