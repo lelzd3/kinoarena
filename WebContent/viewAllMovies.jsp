@@ -8,6 +8,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<title>All Movies page</title>
 		
 		<style>
@@ -28,6 +30,15 @@
 	</head>
 	
 	<body>
+	
+		
+		<form action="search" method="post">
+		  	<button type="submit" class="w3-bar-item w3-button w3-padding-large w3-right w3-theme-d4">Search</button>
+		    <input type="text" id="search" name="user" class="w3-bar-item w3-button w3-padding-large w3-right w3-theme-d4" required>
+		</form>
+		
+		
+		
 		
 		<% for (Movie movie : movies) { %>
 		<br><br>
@@ -62,6 +73,31 @@
 		<% } %>
 		
 		
+		
+		<script>
+		
+		//search
+		$(document).ready(function() {
+		    $(function() {
+		        $("#search").autocomplete({     
+		            source : function(request, response) {
+		              $.ajax({
+		                   url : "searchServlet",
+		                   type : "GET",
+		                   data : {
+		                          term : request.term
+		                   },
+		                   dataType : "json",
+		                   success : function(data) {
+		                         response(data);
+		                   }
+		            });
+		         }
+		     });
+		  });
+		});
+		</script>
+			
 	</body>
 	
 </html>

@@ -27,6 +27,7 @@ public class ReservationHallServlet extends HttpServlet {
 			
 			int broadcastId = 9;
 			Broadcast broadcast = BroadcastDao.getInstance().getBroadcastById(broadcastId);
+//			System.out.println("Stignah tyk");
 			//append them to request
 			ArrayList<String> allSeatsForBroadcast = ReservationDao.getInstance().getAllOccupiedSeatsForABroadcast(broadcast);
 			response.getWriter().write(allSeatsForBroadcast.toString().substring(1, allSeatsForBroadcast.toString().length()-1));

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import exceptions.InvalidDataException;
@@ -15,5 +16,9 @@ public interface IMovieDao {
 	public Collection<Movie> getAllMovies() throws Exception;
 
 	public Movie getMovieById(int id) throws Exception;
+	
+	public ArrayList<String> getMoviesContains(String term) throws SQLException;
+	
+	public ArrayList<String> getAllMoviesNames() throws SQLException;
 
 }

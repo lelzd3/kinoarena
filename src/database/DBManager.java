@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class DBManager {
  
-	private static final String DB_PASS = "Bobi12345";
+	private static final String DB_PASS = "Bobi1234%";
 	private static final String DB_USER = "root";
 	private static final String DB_PORT = "3306";
-	private static final String DB_IP = "localhost";
+	private static final String DB_IP = "127.0.0.1";
 	private static final String DB_NAME = "cinema"; //still not made
 	// root@localhost:3306
 
@@ -33,13 +33,16 @@ public class DBManager {
 		System.out.println("Driver loaded");
 		// create connection
 		try {
-			System.out.println("Connection created");
 			connection = DriverManager.getConnection("jdbc:mysql://" + DB_IP + ":" + DB_PORT + "/" + DB_NAME, DB_USER,
 					DB_PASS);
+
+			System.out.println("Connection created");
 
 		} catch (SQLException e) {
 			System.out.println("Sorry, connection failed. Maybe wrong credentials?");
 			System.out.println(e.getMessage());
+			System.out.println(e.getSQLState());
+			System.out.println(e.getErrorCode());
 		}
 	}
 

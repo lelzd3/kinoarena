@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import database.DBManager;
 import exceptions.InvalidDataException;
@@ -90,5 +91,34 @@ public class MovieDao implements IMovieDao{
 					result.getString("file_location")
 					);
 		return movie;
+	}
+
+	public ArrayList<String> getMoviesContains(String term) throws SQLException {
+		
+		ArrayList<String> movies = new ArrayList<>();
+		String query = "SELECT title FROM movies WHERE title LIKE ?";
+		System.out.println("movie");
+		try(PreparedStatement ps = connection.prepareStatement(query)){
+			ps.setString(1,"%"+ term + "%");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+                movies.add(rs.getString("title"));
+			}
+		}
+		return movies;
+	}
+
+	public ArrayList<String> getAllMoviesNames() throws SQLException {
+		
+		ArrayList<String> moviesNames = new ArrayList<>();
+		String query = "SELECT title FROM movies ";
+		System.out.println("movie");
+		try(PreparedStatement ps = connection.prepareStatement(query)){
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				moviesNames.add(rs.getString("title"));
+			}
+		}
+		return moviesNames;
 	}
 }
