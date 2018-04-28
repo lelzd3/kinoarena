@@ -19,4 +19,14 @@
     <servlet-name>SearchMovie</servlet-name>
     <url-pattern>/SearchMovie</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MovieSerachServlet</display-name>
+    <servlet-name>MovieSerachServlet</servlet-name>
+    <servlet-class>servlets.MovieSerachServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MovieSerachServlet</servlet-name>
+    <url-pattern>/MovieSerachServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -121,4 +121,27 @@ public class MovieDao implements IMovieDao{
 		}
 		return moviesNames;
 	}
+
+	public Movie getMovieByName(String name) throws InvalidDataException, SQLException {
+		
+		String query = "SELECT id, title, description, rating ,  duration , file_location FROM movies WHERE title = ?";
+		//System.out.println("movie");
+		PreparedStatement ps = connection.prepareStatement(query);
+		ps.setString(1, name);
+		ResultSet result = ps.executeQuery();
+		result.next();
+		Movie movie = new Movie(
+					result.getInt("id"),
+					result.getString("title"),
+					result.getString("description"),
+					result.getDouble("rating"),
+					result.getDouble("duration"),
+					result.getString("file_location")
+					);
+		
+		return movie;
+	
+	}
+	
+	
 }
