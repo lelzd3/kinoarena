@@ -54,7 +54,7 @@ public class ReservationDao implements IReservationDao {
 
 			for (Seat seat : seats) {
 				s = connection.prepareStatement(
-						"INSERT INTO reservations_seats (ticket_reservations_id,row_number,column_number) VALUES (?,?,?)");
+						"INSERT INTO `reservations_seats` (`ticket_reservations_id` ,`row_number` ,`column_number`) VALUES (?,?,?)");
 				s.setInt(1, r.getId());
 				s.setInt(2, seat.getRow());
 				s.setInt(3, seat.getColumn());
@@ -131,7 +131,7 @@ public class ReservationDao implements IReservationDao {
 			for (Reservation reservation : reservations) {
 				// do a select query WHERE reservation_id = reservation.getId
 				ps = connection.prepareStatement(
-						"SELECT row_number,column_number FROM reservations_seats WHERE ticket_reservations_id = ?");
+						"SELECT `row_number` , `column_number` FROM `reservations_seats` WHERE `ticket_reservations_id` = ?");
 				ps.setInt(1, reservation.getId());
 				ResultSet result = ps.executeQuery();
 				// make a resultset and while through him and append to allSeats
