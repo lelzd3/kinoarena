@@ -111,15 +111,23 @@ public class UserDao implements IUserDao{
 		try {
 			connection.setAutoCommit(false);
 			
+			System.out.println(u.getId());
+			System.out.println(u.getUsername());
+			System.out.println(m.getId());
+			System.out.println(m.getRating());
+			System.out.println(rating);
+			
 			//check if user has rated and put value in oldRatingGiven
-			ps = connection.prepareStatement("SELECT rating FROM users_rated_movies WHERE users_id = ?");
+			ps = connection.prepareStatement("SELECT rating FROM users_rated_movies WHERE users_id = ? AND movies_id= ?");
 			ps.setInt(1, u.getId());
+			ps.setInt(2, m.getId());
 			ResultSet r = ps.executeQuery();
 			if(r.next()) {
 				//if hasNext->user has rated before -> update old entry of user rating in users_rated_movies
-				ps = connection.prepareStatement("UPDATE users_rated_movies SET rating = ? WHERE users_id = ?");
+				ps = connection.prepareStatement("UPDATE users_rated_movies SET rating = ? WHERE users_id = ? AND movies_id= ?");
 				ps.setInt(1, rating);
-				ps.setInt(2,u.getId());
+				ps.setInt(2, u.getId());
+				ps.setInt(3, m.getId());
 				ps.executeUpdate();
 			}
 			else {
